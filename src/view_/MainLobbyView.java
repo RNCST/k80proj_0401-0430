@@ -20,6 +20,7 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 public class MainLobbyView extends JFrame implements ActionListener{
+	private static MainLobbyView mainLobbyView = new MainLobbyView();
 
 	JPanel         jp_1       = null;
 	JPanel         jp_2       = null;
@@ -69,6 +70,14 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	
 	LoginView       loginView   = null;
 	SettingView     settingView = null;
+	
+	public static MainLobbyView getInstance() {
+		if(mainLobbyView == null) {
+			mainLobbyView = new MainLobbyView();
+		}
+		return mainLobbyView;	
+	}
+	
 	
 	public MainLobbyView() {
 	
@@ -128,12 +137,11 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	    
 	    ft1      = new Font("Ariel", Font.BOLD, 13);
 	    
-	    settingView = new SettingView();
+	    settingView = SettingView.getInstance();
 	    
 	    System.out.println("===MainLobby디폴트생성자 생성 성공");
 	}
-	public void initdisplay(LoginView loginView) {
-		this.loginView = loginView;
+	public void initdisplay() {
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.white);
 		add(jspp_3, BorderLayout.CENTER);
@@ -177,10 +185,6 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		setResizable(false);
 		System.out.println("===MainLobbyView initdisplay(); 실행성공");
 	}
-	public void closedisplay() {
-		this.dispose();
-	}
-	
 	
 	
 	
@@ -217,7 +221,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		}else if(jb_unde == obj) {
 			
 		}else if(jb_setting == obj) {
-			settingView.initdisplay(loginView);
+			settingView.initdisplay();
 			
 		}
 		

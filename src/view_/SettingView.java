@@ -22,7 +22,8 @@ import javax.swing.border.TitledBorder;
  * 
  */
 public class SettingView extends JFrame implements ActionListener {
-
+	private static SettingView settingView = new SettingView();
+	
 	JPanel jp_1 = null;
 	JPanel jp_2 = null;
 	JPanel jp_3 = null;
@@ -55,7 +56,13 @@ public class SettingView extends JFrame implements ActionListener {
 
 	MainLobbyView mainLobbyView = null;
 	LoginView   loginView       = null;
-
+	
+	public static SettingView getInstance() {
+		if(settingView == null) {
+			settingView = new SettingView();
+		}
+		return settingView;
+	}
 	public SettingView() {
 		jp_1 = new JPanel();
 		jp_2 = new JPanel();
@@ -109,9 +116,7 @@ public class SettingView extends JFrame implements ActionListener {
 		
 	}
 
-	public void initdisplay(LoginView loginView) {
-		loginView = loginView;
-		this.loginView =loginView;
+	public void initdisplay() {
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setBackground(Color.white);
 		add(jspp_3, BorderLayout.CENTER);
@@ -152,7 +157,7 @@ public class SettingView extends JFrame implements ActionListener {
 	public static void main(String[] args) {
 		SettingView sv = new SettingView();
 //		System.out.println(sv.verticalTitle);
-//		sv.initdisplay();
+		sv.initdisplay();
 		;
 	}
 
@@ -162,16 +167,9 @@ public class SettingView extends JFrame implements ActionListener {
 		if (jb_changeNickName == obj) {
 
 		} else if (jb_logOut == obj) {
-			mainLobbyView = new MainLobbyView();
-			loginView.closedMainDisplay();
 			dispose();
-			try {
-				loginView = new LoginView();
-			} catch (IOException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
-			loginView.initdisplay();
+			MainLobbyView.getInstance().dispose();
+			LoginView.getInstance().initdisplay();
 			
 		} else if (jb_signOut == obj) {
 

@@ -14,8 +14,6 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import run_._run;
@@ -25,8 +23,8 @@ import run_._run;
  * LoginView
  * 
  */
-public class LoginView extends JFrame implements ActionListener {
-	
+public class LoginView extends JFrame implements ActionListener  {
+	private static LoginView loginView = new LoginView() ;
 	
 	
 	JButton        jb_login   = null;
@@ -61,7 +59,14 @@ public class LoginView extends JFrame implements ActionListener {
 		this();
 		
 	}
-	public LoginView() throws IOException {
+	public static LoginView getInstance() {
+		if(loginView == null) {
+			loginView = new LoginView();
+		}
+		return loginView;
+	}
+	
+	public LoginView() {
 		/*
 		 * DB 연동을 여기에서 할지 RUN에서할지
 		 */
@@ -79,10 +84,10 @@ public class LoginView extends JFrame implements ActionListener {
 
 		jtf_pw = new JTextField();
 		
-		File f = new File("coding_cat.gif");
-		URL img = f.toURL();
-		icon = new ImageIcon(img);
-		icon.setImage(icon.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
+//		File f = new File("coding_cat.gif");
+//		URL img = f.toURL();
+//		icon = new ImageIcon(img);
+//		icon.setImage(icon.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
 
 		jl_gif = new JLabel(icon);
 		jl_id = new JLabel("ID :");
@@ -96,7 +101,7 @@ public class LoginView extends JFrame implements ActionListener {
 		
 		jl_gif.setBounds(250, 0, 300, 300);
 		System.out.println("===LoginView 디폴트생성자 생성 성공");
-		mainLobbyView = new MainLobbyView();
+		mainLobbyView = MainLobbyView.getInstance();
 		signUpView    = new SignUpView();
 		searchView    = new SearchView();
 		
@@ -115,10 +120,6 @@ public class LoginView extends JFrame implements ActionListener {
 	    });
 //=======================================================================================================================
 	    
-	}
-	public void closedMainDisplay() {
-		mainLobbyView.dispose();
-		
 	}
 	
 
@@ -152,7 +153,7 @@ public class LoginView extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 		if(jb_login == obj){
 //========== DB 확인 =====================================//	
-			mainLobbyView.initdisplay(this);
+			mainLobbyView.initdisplay();
 			this.dispose();
 			
 		

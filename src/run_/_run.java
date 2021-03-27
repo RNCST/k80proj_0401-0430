@@ -9,7 +9,7 @@ public class _run {
 	 * run() ==> Server, Client, LoginView
 	 */
 	
-	public LoginView loginView = null;
+	public LoginView loginView = LoginView.getInstance();
 	public static String version ="POPCHAT VER 0.0 입니다.";
 	
 	public _run() throws IOException {
