@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8"/>
 	<classpathentry kind="src" path="src"/>
-	<classpathentry kind="lib" path="C:/KOSMO80/workspace/commons-logging-1.2.jar"/>
-	<classpathentry kind="lib" path="C:/KOSMO80/workspace/gson-2.8.6.jar"/>
-	<classpathentry kind="lib" path="C:/KOSMO80/workspace/mybatis-3.5.6.jar"/>
-	<classpathentry kind="lib" path="C:/KOSMO80/workspace/spring-beans-4.3.30.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/KOSMO80/workspace/spring-context-4.3.30.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/KOSMO80/workspace/spring-core-4.3.30.RELEASE.jar"/>
-	<classpathentry kind="lib" path="C:/KOSMO80/workspace/spring-expression-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OSH/git/java210208/commons-logging-1.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OSH/git/java210208/gson-2.8.6.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OSH/git/java210208/spring-beans-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OSH/git/java210208/spring-context-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OSH/git/java210208/spring-core-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/Users/OSH/git/java210208/spring-expression-4.3.30.RELEASE.jar"/>
+	<classpathentry kind="lib" path="C:/00KOSMO/workspace_java80/mybatis-3.5.6.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

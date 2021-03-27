@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
 import java.io.File;
 import java.io.IOException;
 import java.net.URL;
@@ -13,6 +15,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import run_._run;
@@ -24,30 +27,38 @@ import run_._run;
  */
 public class LoginView extends JFrame implements ActionListener {
 	
-	JButton jb_login = null;
-	JButton jb_cancel = null;
-	JButton jb_signUp = null;
-	JButton jb_search = null; 
+	
+	
+	JButton        jb_login   = null;
+	JButton        jb_cancel  = null;
+	JButton        jb_signUp  = null;
+	JButton        jb_search  = null; 
 
-	JTextField jtf_id = null;
-	JTextField jtf_pw = null;
-	File file = null;
+	JTextField     jtf_id     = null;
+	JTextField     jtf_pw     = null;
+	File           file       = null;
 
-	JLabel jl_id = null;
-	JLabel jl_pw = null;
-	JLabel jl_infor = null;
-	JLabel jl_gif = null;
-	ImageIcon icon = null;
-	ImageIcon changei = null;
-	Image sizedImg = null;
-	URL url = null;
+	JLabel         jl_id      = null;
+	JLabel         jl_pw      = null;
+	JLabel         jl_infor   = null;
+	JLabel         jl_gif     = null;
+	
+	ImageIcon      icon       = null;
+	ImageIcon      changei    = null;
+	Image          sizedImg   = null;
+	
+	URL            url        = null;
+	
+	MainLobbyView mainLobbyView = null;
+	SignUpView    signUpView    = null;
+	SearchView    searchView    = null; 
 	
 
 //	LoginVO         LVO          = null;
 //	DBLogic         dblogic      = null;
 //	prjDAO          pDAO         = null;
 	public LoginView(_run _run) throws IOException {
-		
+		this();
 		
 	}
 	public LoginView() throws IOException {
@@ -56,7 +67,7 @@ public class LoginView extends JFrame implements ActionListener {
 		 */
 		
 		
-		jb_login = new JButton("LOGIN");
+		jb_login  = new JButton("LOGIN");
 		jb_cancel = new JButton("CANCEL");
 		jb_signUp = new JButton("회원가입");
 		jb_search = new JButton("ID,PW찾기");
@@ -84,6 +95,30 @@ public class LoginView extends JFrame implements ActionListener {
 		jb_search.setBounds(500, 400, 70, 70);
 		
 		jl_gif.setBounds(250, 0, 300, 300);
+		System.out.println("===LoginView 디폴트생성자 생성 성공");
+		mainLobbyView = new MainLobbyView();
+		signUpView    = new SignUpView();
+		searchView    = new SearchView();
+		
+		
+//=======================================================================================================================
+	    addWindowListener
+	    (new WindowAdapter() {   // 내부 무명클래스로서 
+
+			@Override
+
+			public void windowClosing(WindowEvent e) {  // 이벤트프로그램
+
+				System.exit(0);
+
+			}
+	    });
+//=======================================================================================================================
+	    
+	}
+	public void closedMainDisplay() {
+		mainLobbyView.dispose();
+		
 	}
 	
 
@@ -103,6 +138,7 @@ public class LoginView extends JFrame implements ActionListener {
 		this.setSize(800, 600);
 		this.setLocationRelativeTo(null); 
 		this.setVisible(true);
+		System.out.println("===LoginView initdisplay(); 실행성공");
 	}
 
 	public static void main(String[] args) throws IOException {
@@ -116,17 +152,18 @@ public class LoginView extends JFrame implements ActionListener {
 		Object obj = e.getSource();
 		if(jb_login == obj){
 //========== DB 확인 =====================================//	
-		
-		
+			mainLobbyView.initdisplay(this);
+			this.dispose();
 			
 		
 //========== DB 확인 =====================================//	
+			
 		}else if(jb_cancel == obj){
 			this.dispose();
 		}else if(jb_signUp == obj){
-			
+			signUpView.initdisplay();
 		}else if(jb_search == obj){
-			
+			searchView.initdisplay();
 		}
 	}
 		
