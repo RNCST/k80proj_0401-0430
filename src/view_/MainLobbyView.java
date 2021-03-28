@@ -111,7 +111,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	    jb_8       = new 	JButton    (room8);
 	    jb_9       = new 	JButton    (room9);
 	    
-	    jb_refresh = new 	JButton    ("새로고침");
+	    jb_refresh = new 	JButton    ("<html>새로<br>고침</html>");
 	    jb_unde    = new 	JButton    ("미정");
 	    jb_setting = new 	JButton    ("설 정");
 
@@ -191,7 +191,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	
 	public static void main(String[] args) {
 		MainLobbyView mlv = new MainLobbyView();
-//		mlv.initdisplay();
+		mlv.initdisplay();
 	}
 
 	@Override

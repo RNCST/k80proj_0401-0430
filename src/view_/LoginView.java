@@ -1,6 +1,7 @@
 package view_;
 
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -14,6 +15,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
 import run_._run;
@@ -33,12 +35,12 @@ public class LoginView extends JFrame implements ActionListener  {
 	JButton        jb_search  = null; 
 
 	JTextField     jtf_id     = null;
-	JTextField     jtf_pw     = null;
+	JPasswordField jtf_pw     = null;
 	File           file       = null;
 
 	JLabel         jl_id      = null;
 	JLabel         jl_pw      = null;
-	JLabel         jl_infor   = null;
+	JLabel         jl_version   = null;
 	JLabel         jl_gif     = null;
 	
 	ImageIcon      icon       = null;
@@ -51,6 +53,7 @@ public class LoginView extends JFrame implements ActionListener  {
 	SignUpView    signUpView    = null;
 	SearchView    searchView    = null; 
 	
+	Font   font            = null;
 
 //	LoginVO         LVO          = null;
 //	DBLogic         dblogic      = null;
@@ -81,8 +84,9 @@ public class LoginView extends JFrame implements ActionListener  {
 		jb_cancel.addActionListener(this);
 		jb_signUp.addActionListener(this);
 		jb_search.addActionListener(this);
-
-		jtf_pw = new JTextField();
+		
+		jtf_id = new JTextField();
+		jtf_pw = new JPasswordField();
 		
 //		File f = new File("coding_cat.gif");
 //		URL img = f.toURL();
@@ -92,18 +96,17 @@ public class LoginView extends JFrame implements ActionListener  {
 		jl_gif = new JLabel(icon);
 		jl_id = new JLabel("ID :");
 		jl_pw = new JLabel("PW :");
-		jl_infor = new JLabel(_run.version);
-
-		jb_login.setBounds(100, 400, 70, 70);
-		jb_cancel.setBounds(200, 400, 70, 70);
-		jb_signUp.setBounds(400, 400, 70, 70);
-		jb_search.setBounds(500, 400, 70, 70);
+		jl_version = new JLabel(_run.version);
 		
-		jl_gif.setBounds(250, 0, 300, 300);
+
 		System.out.println("===LoginView 디폴트생성자 생성 성공");
 		mainLobbyView = MainLobbyView.getInstance();
 		signUpView    = new SignUpView();
 		searchView    = new SearchView();
+		
+
+		font = new Font("휴먼모음T", Font.PLAIN, 11);
+		
 		
 		
 //=======================================================================================================================
@@ -124,21 +127,45 @@ public class LoginView extends JFrame implements ActionListener  {
 	
 
 	public void initdisplay() {
-		this.setDefaultCloseOperation(DISPOSE_ON_CLOSE);
-		this.getContentPane().setLayout(null);
-		this.getContentPane().setBackground(Color.white);
+		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
+		getContentPane().setLayout(null);
+		getContentPane().setBackground(Color.white);
 
-		this.add(jb_login);
-		this.add(jb_cancel);
-		this.add(jb_signUp);
-		this.add(jb_search);
+		add(jb_login);
+		add(jb_cancel);
+		add(jb_signUp);
+		add(jb_search);
+		
+		add(jl_version);
+		add(jl_gif);
+		
+		add(jl_id);
+		add(jtf_id);
+		add(jl_pw);
+		add(jtf_pw);
 
-		this.add(jl_gif);
+		
+		jl_version.setBounds(0, 435, 200, 40);
+		
+		jl_id.setBounds(30,260 ,60 ,30 );
+		jtf_id.setBounds(60,265 ,90 ,20 ); 	   
+		jl_pw.setBounds(30,300 ,60 ,30 );
+		jtf_pw.setBounds(60,305 ,90 ,20 );
+		
+		jb_login.setBounds(170, 265, 80, 60);
+		jb_login.setFont(font);
+		
+//		jb_cancel.setBounds(200, 400, 70, 70);
+		jb_signUp.setBounds(20, 380, 90, 30);
+		jb_signUp.setFont(font);
+		jb_search.setBounds(140, 380, 90, 30);
+		jb_search.setFont(font);
+		
+		jl_gif.setBounds(250, 0, 300, 300);
 
-
-		this.setSize(800, 600);
-		this.setLocationRelativeTo(null); 
-		this.setVisible(true);
+		setSize(270, 500);
+		setLocationRelativeTo(null); 
+		setVisible(true);
 		System.out.println("===LoginView initdisplay(); 실행성공");
 	}
 
