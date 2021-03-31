@@ -11,10 +11,13 @@ import java.io.IOException;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
+
+import DBLogic.DBLogic;
 
 /**
  * @author OSH Setting button action 받으면 jp_2 3 4 번과 SettingView panel jp_2 3 4
@@ -54,8 +57,7 @@ public class SettingView extends JFrame implements ActionListener {
 	JSplitPane jspp_2 = null;
 	JSplitPane jspp_3 = null;
 
-	MainLobbyView mainLobbyView = null;
-	LoginView   loginView       = null;
+	DBLogic        dblogic      = new DBLogic();
 	
 	public static SettingView getInstance() {
 		if(settingView == null) {
@@ -158,27 +160,32 @@ public class SettingView extends JFrame implements ActionListener {
 		SettingView sv = new SettingView();
 //		System.out.println(sv.verticalTitle);
 		sv.initdisplay();
-		;
+		System.out.println(LoginView.getInstance().getGetID());
+		
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		MainLobbyView mainLobbyViewInstance = MainLobbyView.getInstance();
+		LoginView loginViewInstance = LoginView.getInstance();
+		SignOutView signOutViewInstance = SignOutView.getInstacne();
 		Object obj = e.getSource();
 		if (jb_changeNickName == obj) {
 
 		} else if (jb_logOut == obj) {
 			dispose();
-			MainLobbyView.getInstance().dispose();
-			LoginView.getInstance().initdisplay();
+			mainLobbyViewInstance.dispose();
+			loginViewInstance.initdisplay();
 			
 		} else if (jb_signOut == obj) {
+			signOutViewInstance.initDisplay();
 
 		} else if (jb_report == obj) {
 
 		} else if (jb_creator == obj) {
-
+			JOptionPane.showMessageDialog(this, "1111111");
 		} else if (jb_ver == obj) {
-
+			JOptionPane.showMessageDialog(this, "0.00000");
 		} else if (jb_refresh == obj) {
 
 		} else if (jb_unde == obj) {

@@ -2,7 +2,6 @@ package view_;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.FlowLayout;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -10,15 +9,20 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JDialog;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JSplitPane;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import DBLogic.DBLogic;
+import basic.mail.SendMail;
+
 public class SearchView extends JDialog implements ActionListener {
+	
+	private static SearchView searchView = new SearchView() ; 
 
 	JButton jb_searchID = null;
 	JButton jb_searchPW = null;
@@ -49,7 +53,16 @@ public class SearchView extends JDialog implements ActionListener {
 	JSplitPane jspp_1 = null;
 
 	Font font = null;
+	
+	DBLogic dbLogic = new DBLogic();
+	
 
+	public static SearchView getInstance() {
+		if(searchView == null) {
+			searchView = new SearchView();
+		}
+		return searchView;
+	}
 	public SearchView() {
 		jb_searchID = new JButton("searchID");
 		jb_searchPW = new JButton("searchPW");
@@ -90,7 +103,7 @@ public class SearchView extends JDialog implements ActionListener {
 		font = new Font("휴먼모음T", Font.PLAIN, 14);
 		jspp_1.add(jp_north);
 		jspp_1.add(jp_south);
-
+		
 
 		System.out.println("===SearchVIew 디폴트생성자 생성 성공");
 	}
@@ -142,12 +155,12 @@ public class SearchView extends JDialog implements ActionListener {
 		jtf_email2.setBounds(170, 45, 200, 20);
 		jl_id.setBounds(60, 80, 60, 30);
 		jtf_id.setBounds(170, 85, 90, 20);
-		jl_pw.setBounds(60, 120, 60, 30);
-		jtf_pw.setBounds(170, 125, 90, 20);
-		jl_question.setBounds(60, 160, 60, 30);
-		jcb_question.setBounds(170, 165, 160, 20);
-		jl_answer.setBounds(60, 200, 60, 30);
-		jtf_answer.setBounds(170, 205, 90, 20);
+//		jl_pw.setBounds(60, 120, 60, 30);
+//		jtf_pw.setBounds(170, 125, 90, 20);
+		jl_question.setBounds(60, 120, 60, 30);
+		jcb_question.setBounds(170, 125, 160, 20);
+		jl_answer.setBounds(60, 160, 60, 30);
+		jtf_answer.setBounds(170, 165, 90, 20);
 		jl_information2.setFont(font);
 		jl_information2.setBounds(50, 290, 320, 50);
 
@@ -168,14 +181,57 @@ public class SearchView extends JDialog implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent ae) {
+		SendMail sendMail = new SendMail();
 		Object obj = ae.getSource();
+		/**
+		 *	dbLogic.runSearchID(jtf_email1.getText())
+		 *	boolean 리턴후 true면 
+		 *	sendMail.sendID(jtf_email1.getText()); 실행
+		 */
 		if(jb_searchID == obj) {
-			
+			boolean isMemberEmail = dbLogic.runSearchID(jtf_email1.getText());
+			if(isMemberEmail==true) {
+				int isok = sendMail.sendID(jtf_email1.getText());
+				if(isok == 1) {
+					JOptionPane.showMessageDialog(this, "이메일을 전송했습니다.");
+					jtf_email1.setText("");
+				}else {
+					JOptionPane.showMessageDialog(this, "이메일을 확인해주세요.");	
+				}
+			}else {
+				JOptionPane.showMessageDialog(this, "입력한 값이 올바르지 않습니다.");
+			}
 		}else if(jb_cancel1==obj) {
+			jtf_email1.setText("");
+			jtf_answer.setText("");
+			jtf_email2.setText("");
+			jtf_id.setText("");
+			jtf_pw.setText("");
 			this.dispose();
 		}else if(jb_searchPW==obj) {
+			boolean isMemberInfor = dbLogic.runSearchPW(jtf_email2.getText(), jtf_id.getText(), String.valueOf(jcb_question.getSelectedItem()), jtf_answer.getText());
+			if(isMemberInfor = true) {
+				int isok = sendMail.sendPW(jtf_email2.getText(), jtf_id.getText(), String.valueOf(jcb_question.getSelectedItem()), jtf_answer.getText());
+				if(isok == 1) {
+					JOptionPane.showMessageDialog(this, "이메일을 전송했습니다");
+					jtf_email2.setText("");
+					jtf_id.setText("");
+					jtf_pw.setText("");
+					jcb_question.setSelectedItem(1);
+					jtf_answer.setText("");
+				}else {
+					JOptionPane.showMessageDialog(this, "입력한 값이 올바르지 않습니다");
+				}
+			}else {
+				JOptionPane.showMessageDialog(this, "입력한 값을 확인해 주세요.");
+			}
 			
 		}else if(jb_cancel2==obj) {
+			jtf_email1.setText("");
+			jtf_answer.setText("");
+			jtf_email2.setText("");
+			jtf_id.setText("");
+			jtf_pw.setText("");
 			this.dispose();
 		}
 

@@ -68,8 +68,6 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	String          room8      = null;
 	String          room9      = null;
 	
-	LoginView       loginView   = null;
-	SettingView     settingView = null;
 	
 	public static MainLobbyView getInstance() {
 		if(mainLobbyView == null) {
@@ -136,9 +134,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	    tb_1     = new TitledBorder(new LineBorder(Color.black));
 	    
 	    ft1      = new Font("Ariel", Font.BOLD, 13);
-	    
-	    settingView = SettingView.getInstance();
-	    
+	    	    
 	    System.out.println("===MainLobby디폴트생성자 생성 성공");
 	}
 	public void initdisplay() {
@@ -196,6 +192,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		SettingView settingViewInstance = SettingView.getInstance();
 		Object obj = e.getSource();
 		
 		if(jb_1 == obj) {
@@ -221,7 +218,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		}else if(jb_unde == obj) {
 			
 		}else if(jb_setting == obj) {
-			settingView.initdisplay();
+			settingViewInstance.initdisplay();
 			
 		}
 		

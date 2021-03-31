@@ -15,9 +15,11 @@ import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import DBLogic.DBLogic;
 import run_._run;
 
 /**
@@ -49,20 +51,31 @@ public class LoginView extends JFrame implements ActionListener  {
 	
 	URL            url        = null;
 	
-	MainLobbyView mainLobbyView = null;
-	SignUpView    signUpView    = null;
-	SearchView    searchView    = null; 
 	
-	Font   font            = null;
+	Font   font                 = null;
+	private String       getID   = "123";
+	private String       getPW	= "123";
 
-//	LoginVO         LVO          = null;
-//	DBLogic         dblogic      = null;
-//	prjDAO          pDAO         = null;
-	public LoginView(_run _run) throws IOException {
-		this();
-		
+public String getGetID() {
+		return getID;
 	}
-	public static LoginView getInstance() {
+
+	public void setGetID(String getID) {
+		this.getID = getID;
+	}
+
+	public String getGetPW() {
+		return getPW;
+	}
+
+	public void setGetPW(String getPW) {
+		this.getPW = getPW;
+	}
+
+	//	LoginVO         LVO          = null;
+	DBLogic         dblogic      = new DBLogic();
+//	prjDAO          pDAO         = null;		
+	public static synchronized LoginView getInstance() {
 		if(loginView == null) {
 			loginView = new LoginView();
 		}
@@ -73,8 +86,6 @@ public class LoginView extends JFrame implements ActionListener  {
 		/*
 		 * DB 연동을 여기에서 할지 RUN에서할지
 		 */
-		
-		
 		jb_login  = new JButton("LOGIN");
 		jb_cancel = new JButton("CANCEL");
 		jb_signUp = new JButton("회원가입");
@@ -100,9 +111,6 @@ public class LoginView extends JFrame implements ActionListener  {
 		
 
 		System.out.println("===LoginView 디폴트생성자 생성 성공");
-		mainLobbyView = MainLobbyView.getInstance();
-		signUpView    = new SignUpView();
-		searchView    = new SearchView();
 		
 
 		font = new Font("휴먼모음T", Font.PLAIN, 11);
@@ -110,17 +118,17 @@ public class LoginView extends JFrame implements ActionListener  {
 		
 		
 //=======================================================================================================================
-	    addWindowListener
-	    (new WindowAdapter() {   // 내부 무명클래스로서 
-
-			@Override
-
-			public void windowClosing(WindowEvent e) {  // 이벤트프로그램
-
-				System.exit(0);
-
-			}
-	    });
+//	    addWindowListener
+//	    (new WindowAdapter() {   // 내부 무명클래스로서 
+//
+//			@Override
+//
+//			public void windowClosing(WindowEvent e) {  // 이벤트프로그램
+//
+//				System.exit(0);
+//
+//			}
+//	    });
 //=======================================================================================================================
 	    
 	}
@@ -145,7 +153,7 @@ public class LoginView extends JFrame implements ActionListener  {
 		add(jtf_pw);
 
 		
-		jl_version.setBounds(0, 435, 200, 40);
+		jl_version.setBounds(0, 425, 200, 40);
 		
 		jl_id.setBounds(30,260 ,60 ,30 );
 		jtf_id.setBounds(60,265 ,90 ,20 ); 	   
@@ -161,7 +169,7 @@ public class LoginView extends JFrame implements ActionListener  {
 		jb_search.setBounds(140, 380, 90, 30);
 		jb_search.setFont(font);
 		
-		jl_gif.setBounds(250, 0, 300, 300);
+//		jl_gif.setBounds(250, 0, 300, 300);
 
 		setSize(270, 500);
 		setLocationRelativeTo(null); 
@@ -169,19 +177,32 @@ public class LoginView extends JFrame implements ActionListener  {
 		System.out.println("===LoginView initdisplay(); 실행성공");
 	}
 
-	public static void main(String[] args) throws IOException {
-		LoginView lv = new LoginView();
-		lv.initdisplay();
-
+	public static void main(String[] args){
+		LoginView.getInstance().initdisplay();
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
+		MainLobbyView mainLobbyViewInstance = MainLobbyView.getInstance();
+		SignUpView signUpViewInstance = SignUpView.getInstance();
+		SearchView searchViewInstacne = SearchView.getInstance();
+		
 		Object obj = e.getSource();
 		if(jb_login == obj){
 //========== DB 확인 =====================================//	
-			mainLobbyView.initdisplay();
+			System.out.println(jtf_id.getText());
+			System.out.println(jtf_pw.getText());
+			if(dblogic.runLogin(jtf_id.getText(),jtf_pw.getText())==true) {
+				setGetID(jtf_id.getText());
+				setGetPW(jtf_pw.getText());
+				mainLobbyViewInstance.initdisplay();
+				jtf_id.setText("");
+				jtf_pw.setText("");
 			this.dispose();
+			
+			} else {
+				JOptionPane.showMessageDialog(this, "아이디와 비밀번호를 확인해주세요.");
+			}
 			
 		
 //========== DB 확인 =====================================//	
@@ -189,9 +210,9 @@ public class LoginView extends JFrame implements ActionListener  {
 		}else if(jb_cancel == obj){
 			this.dispose();
 		}else if(jb_signUp == obj){
-			signUpView.initdisplay();
+			signUpViewInstance.initdisplay();
 		}else if(jb_search == obj){
-			searchView.initdisplay();
+			searchViewInstacne.initdisplay();
 		}
 	}
 		

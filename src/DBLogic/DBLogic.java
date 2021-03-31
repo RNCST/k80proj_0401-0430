@@ -3,10 +3,12 @@ package DBLogic;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.Vector;
 
 import dao_.DBConnectionMgr;
 import pVO.MemberVO;
+import view_.LoginView;
 
 public class DBLogic {
 	DBConnectionMgr dbMgr = DBConnectionMgr.getInstance();
@@ -20,30 +22,39 @@ public class DBLogic {
 	 * 로그인하는 Vector타입 생성자
 	 * ID / PW만 비교
 	 * 
-	 * @return membervoVec (ID , PW)
+	 * @return boolean loginOk
 	 */
-	public Vector<MemberVO> runLogin() {
-		Vector<MemberVO> membervoVec = new Vector<MemberVO>();
-		sql = null;
-		sql.append(" SELECT " 
-				+ "    FROM " 
-				+ "   WHERE" 
-				+ "   ORDER BY");
+	public boolean runLogin(String loginID , String loginPW) {
+		boolean loginOk = false;
 		try {
+			sql = null;
+			sql = new StringBuffer();
+			sql.append("SELECT * FROM MEMBERLIST WHERE p80_ID ='"+loginID+"'");
 			con = dbMgr.getConnection();
 			pstmt = con.prepareStatement(sql.toString());
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				MemberVO mVO = null;
-				mVO.setMember_ID(rs.getString("  sql 문  ID   "));
-				mVO.setMember_PW(rs.getString("  sql 문 PW   "));
-				membervoVec.add(mVO);
+			if( rs.next() == false || (loginID.isEmpty() == true)){
+				loginOk = false;
+				System.out.println("===ID부터 틀림");
+			} else {
+				sql = null;
+				sql = new StringBuffer();
+			    sql.append("SELECT P80_PW FROM (SELECT * FROM MEMBERLIST WHERE p80_ID ='" + loginID + "')");
+			    rs = pstmt.executeQuery(sql.toString());
+			    if (rs.next() == true) {
+			    	if (rs.getString(1).equals(loginPW)) {
+			    		loginOk = true;
+			    	}else {
+			    		loginOk = false;
+			    		System.out.println("===PW가 틀림");
+			    	}
+			    }
 			}
 			dbMgr.freeConnection(con, pstmt, rs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return membervoVec;
+		return loginOk;
 	}
 
 	/**
@@ -52,89 +63,171 @@ public class DBLogic {
 	 * 
 	 * 회원가입하는 sql 문 안쪽에 ID중복검사를 넣던가 
 	 * 이 메소드 실행하기전에 중복검사를 하는 메소드를 하나 더 실행 <<= 1안
+	 * 중복검사를 무조건 거치게.
 	 * 
 	 */
-	public void runSignUp() {
-		sql = null;
-		MemberVO mVO = null;
-		sql.append("INSERT INTO table" 
-				+ " (EMAIL ID PW QUESION ANSWER )" 
-				+ "values (?, ?, ?, ?, ?))");
+	public Boolean runSignUp(String loginEmail, String loginID, String loginPW, String loginQuestion, String loginAnswer) {
+		Boolean signupOk = false;
+		int     RegNumber= this.runGetPKNum()+1;
 		try {
+			
+			sql = null;
+			sql = new StringBuffer();
+			sql.append("INSERT INTO MEMBERLIST" 
+					+ " (P80_REGNUMBER, P80_EMAIL, P80_ID, P80_PW, P80_QUESTION, P80_ANSWER)" 
+					+ " values (?, ?, ?, ?, ?, ?)");
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, mVO.getMember_Email());
-			pstmt.setString(2, mVO.getMember_ID());
-			pstmt.setString(3, mVO.getMember_PW());
-			pstmt.setString(4, mVO.getMember_Question());
-			pstmt.setString(5, mVO.getMember_Answer());
+			pstmt = con.prepareStatement(sql.toString());			
+			pstmt.setInt(1, RegNumber);
+			pstmt.setString(2, loginEmail);
+			pstmt.setString(3, loginID);
+			pstmt.setString(4, loginPW);
+			pstmt.setString(5, loginQuestion);
+			pstmt.setString(6, loginAnswer);
 			pstmt.executeUpdate();
 			dbMgr.freeConnection(con, pstmt);
+			signupOk = true;
 		} catch (Exception e) {
 			e.printStackTrace();
+			signupOk = false;
 		}
+		System.out.println("===loginOk 결과는 "+ signupOk);
+		return signupOk;
 	}
 	
 	/**
-	 * ID를 찾는 생성자
-	 * EMAIL만 비교해서 있으면 EMAIL 발송
-	 * EMAIL안에 가져온 아이디값을 넣어야함
+	 * 아이디 중복 검사 
+	 * @param loginID
 	 * 
-	 * @return membervoVeC ==> ID값이 들어있게.
+	 * @return Boolean duplicateID = true , false 반환
+	 * true인 경우 중복이 안됨
+	 * false인 경우 중복이 됨.
 	 */
-	public Vector<MemberVO> runSearchID(){
-		Vector<MemberVO> membervoVec = new Vector<MemberVO>();
+	public Boolean runDuplicateID(String loginID) {
+		Boolean duplicateID = false;
+		int duplicateNum = 0;
+		try {
+			sql = null;
+			sql = new StringBuffer();
+			sql.append("SELECT COUNT(p80_id) AS cnt FROM MEMBERLIST WHERE p80_id=?");
+			con = dbMgr.getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, loginID);
+			rs    = pstmt.executeQuery();
+			rs.next();
+			duplicateNum = rs.getInt(1);
+			if(duplicateNum == 1)
+			{ duplicateID = false;
+			System.out.println("중복 됨");}
+			else 
+			{ duplicateID = true;
+			System.out.println("중복 안됨");}	
+			System.out.println("중복 검사 결과는 "+duplicateID);
+			dbMgr.freeConnection(con, pstmt, rs);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+			duplicateID = false;
+		} return duplicateID;
+	}
+	/**
+	 * 
+	 * @return P80_RegNumber 
+	 * MEMBERLIST 테이블에서 pk의 마지막 값을 가져옵니다. 
+	 */
+	public int runGetPKNum() {
+		int p80_RegNumber = 0;
+		try {
+			sql = null;
+			sql = new StringBuffer();
+			sql.append("SELECT MAX(P80_REGNUMBER) FROM MEMBERLIST");
+			con = dbMgr.getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			rs    = pstmt.executeQuery();
+			rs.next();
+			p80_RegNumber = rs.getInt(1);
+			System.out.println("===p80회원 고유번호는 "+ p80_RegNumber);
+			dbMgr.freeConnection(con, pstmt, rs);
+			
+		} catch (Exception e) {
+			e.printStackTrace();
+		} return p80_RegNumber;
+	}
+	
+	/**
+	 * jtf_text안에 이메일이 존재하는지 체크하는 메소드
+	 * @param String loginEmail ==> SearchView.jtf_email1
+	 * 
+	 * @return boolean isRealEmail 체크
+	 */
+	public boolean runSearchID(String loginEmail){
+		boolean isRealEmail    = false;
+		int     isRealEmailNum = 0;
 		sql = null;
-		sql.append(" SELECT " 
-				+ "    FROM " 
-				+ "   WHERE" 
-				+ "   ORDER BY");
+		sql = new StringBuffer();
+		sql.append("SELECT COUNT(CASE WHEN p80_EMAIL=? THEN 1 ELSE NULL END) "
+				+ "AS cnt FROM MEMBERLIST");
 		try {
 			con = dbMgr.getConnection();
 			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1 , loginEmail);
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				MemberVO mVO = null;
-				mVO.setMember_ID(rs.getString("  sql 문  ID   "));
-				mVO.setMember_PW(rs.getString("  sql 문 PW   "));
-				membervoVec.add(mVO);
+			rs.next();
+			isRealEmailNum = rs.getInt(1);
+			if(isRealEmailNum == 1) {
+				isRealEmail = true;
 			}
+			else if(isRealEmailNum == 0) {
+				isRealEmail = false;
+			}
+			
 			dbMgr.freeConnection(con, pstmt, rs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return membervoVec;
+		return isRealEmail;
 	}
 	
 	/**
-	 * PW를 찾는 생성자
+	 * PW를 찾는 메소드
 	 * Email ID PW Question Answer 모두 비교해서 있으면 email 발송
 	 * EMAIL 안에 가져온 아이디 비밀번호 값을 넣어야함.
 	 * 
 	 * @return membervoVeC ==> Email ID PW Question Answer값이 들어있게.
 	 */
-	public Vector<MemberVO> runSearchPW(){
-		Vector<MemberVO> membervoVec = new Vector<MemberVO>();
+	public boolean runSearchPW(String memberEmail, String memberID, String memberQuestion, String memberAnswer){
+		boolean isRealinfor    = false;
+		int     isRealinforNum = 0;
 		sql = null;
-		sql.append(" SELECT " 
-				+ "    FROM " 
-				+ "   WHERE" 
-				+ "   ORDER BY");
+		sql = new StringBuffer();
+		sql.append("SELECT COUNT(CASE WHEN p80_EMAIL=? "
+				+ "AND P80_ID =? "
+				+ "AND P80_QUESTION =? "
+				+ "AND P80_ANSWER = ? "
+				+ "THEN 1 ELSE NULL END) "
+				+ "AS cnt FROM MEMBERLIST");
 		try {
 			con = dbMgr.getConnection();
 			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, memberEmail);
+			pstmt.setString(2, memberID);
+			pstmt.setString(3, memberQuestion);
+			pstmt.setString(4, memberAnswer);
 			rs = pstmt.executeQuery();
-			while (rs.next()) {
-				MemberVO mVO = null;
-				mVO.setMember_ID(rs.getString("  sql 문  ID   "));
-				mVO.setMember_PW(rs.getString("  sql 문 PW   "));
-				membervoVec.add(mVO);
+			rs.next();
+			isRealinforNum = rs.getInt(1);
+			if(isRealinforNum == 1) {
+				isRealinfor = true;
 			}
+			else if(isRealinforNum == 0) {
+				isRealinfor = false;
+			}
+			
 			dbMgr.freeConnection(con, pstmt, rs);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		return membervoVec;
+		return isRealinfor;
 	}
 	
 	/**
@@ -143,20 +236,23 @@ public class DBLogic {
 	 * 또는 회원탈퇴 누르는순간 창을 하나 더 띄워서 ID PW값을 입력 받도록.
 	 * 
 	 */
-	public void runSignOut(String Member_ID, String Member_PW) {
+	public void runSignOut(String savedP80_ID, String savedP80_PW) {
 		sql = null;
 		sql = new StringBuffer();
-		sql.append("DELETE FROM table WHERE Member_ID=?, Member_PW=?");
+		sql.append("DELETE FROM MEMBERLIST WHERE P80_ID = ? and P80_PW = ?");
 		try {
 			con = dbMgr.getConnection();
 			pstmt = con.prepareStatement(sql.toString());
-			pstmt.setString(1, Member_ID);
-			pstmt.setString(2, Member_PW);
+			pstmt.setString(1, savedP80_ID);
+			pstmt.setString(2, savedP80_PW);
 			pstmt.executeUpdate();
 			dbMgr.freeConnection(con, pstmt);
+			LoginView.getInstance().setGetID(null);
+			LoginView.getInstance().setGetPW(null);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
 	}
 
 }
+

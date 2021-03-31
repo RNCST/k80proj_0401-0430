@@ -10,7 +10,7 @@ public class DBConnectionMgr {
 	private final static String _DRIVER  = "oracle.jdbc.driver.OracleDriver";
 	private final static String _URL     = "jdbc:oracle:thin:@127.0.0.1:1521:orcl11";
 	private final static String _USER    = "ko80project_2";
-	private final static String _PW      = "abcd1234";
+	private final static String _PW      = "admin1234";
 	private static DBConnectionMgr dbMgr = null;
 	private               Connection con = null;
 	private DBConnectionMgr() {}
@@ -20,6 +20,7 @@ public class DBConnectionMgr {
 		if(dbMgr==null) {
 			dbMgr = new DBConnectionMgr();
 		}
+		System.out.println("===DBConnectionMgr getInstance()");
 		return dbMgr;
 	}
 	
@@ -40,6 +41,7 @@ public class DBConnectionMgr {
 		} catch (Exception e) {
 			System.out.println("오라클 서버에 접속 불가");
 		}
+		System.out.println("오라클 연결");
 		return con;
 	}
 	public void freeConnection(Connection con, PreparedStatement pstmt, ResultSet rs) {
