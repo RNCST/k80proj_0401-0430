@@ -2,7 +2,7 @@ package run_;
 
 import java.io.IOException;
 
-import dao_.DBConnectionMgr;
+import DBConnection.DBConnectionMgr;
 import view_.LoginView;
 
 public class _run {

@@ -16,8 +16,8 @@ import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import DBLogic.DBLogic;
-import dao_.DBConnectionMgr;
+import DAO.DAO;
+import DBConnection.DBConnectionMgr;
 import pVO.MemberVO;
 
 
@@ -28,7 +28,7 @@ public class SendMail {
 	private StringBuffer sql = null;
 	private ResultSet rs = null;
 	private MemberVO[] mvoList = null;
-	DBLogic dbLogic = new DBLogic();
+	DAO dbLogic = new DAO();
 	
 	
 	

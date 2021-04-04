@@ -1,4 +1,4 @@
-package DBLogic;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -6,11 +6,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Vector;
 
-import dao_.DBConnectionMgr;
+import DBConnection.DBConnectionMgr;
 import pVO.MemberVO;
 import view_.LoginView;
 
-public class DBLogic {
+/**
+ * @author OSH
+ *
+ */
+public class DAO {
 	DBConnectionMgr dbMgr = DBConnectionMgr.getInstance();
 	private Connection con = null;
 	private PreparedStatement pstmt = null;
@@ -21,7 +25,6 @@ public class DBLogic {
 	/**
 	 * 로그인하는 Vector타입 생성자
 	 * ID / PW만 비교
-	 * 
 	 * @return boolean loginOk
 	 */
 	public boolean runLogin(String loginID , String loginPW) {
@@ -56,11 +59,34 @@ public class DBLogic {
 		}
 		return loginOk;
 	}
-
+	
+	
+	
+	/**
+	 * VO 담기.. 안쓸듯
+	 * @param loginEmail
+	 * @param loginID
+	 * @param loginPW
+	 * @param loginQuestion
+	 * @param loginAnswer
+	 * @return
+	 */
+	public Vector<MemberVO> setSignUpVO(String loginEmail, String loginID, String loginPW, String loginQuestion, String loginAnswer) {
+		Vector<MemberVO> mvoVec = new Vector<MemberVO>();
+		MemberVO mVO = null;
+		mVO = new MemberVO();
+		mVO.setMember_Email(loginEmail);
+		mVO.setMember_ID(loginID);
+		mVO.setMember_PW(loginPW);
+		mVO.setMember_Question(loginQuestion);
+		mVO.setMember_Answer(loginAnswer);
+		mvoVec.add(mVO);
+		return mvoVec;
+	}
 	/**
 	 * 회원가입 하는 메소드 
 	 * Email ID PW Quesion Answer 순으로 기입;
-	 * 
+	 * 알고리즘에 필요한 SCORE는 일단 101점으로 넣은후  추가 작업으로 101점이면 점수를 계산하는 메소드 실행하도록...
 	 * 회원가입하는 sql 문 안쪽에 ID중복검사를 넣던가 
 	 * 이 메소드 실행하기전에 중복검사를 하는 메소드를 하나 더 실행 <<= 1안
 	 * 중복검사를 무조건 거치게.
@@ -68,22 +94,24 @@ public class DBLogic {
 	 */
 	public Boolean runSignUp(String loginEmail, String loginID, String loginPW, String loginQuestion, String loginAnswer) {
 		Boolean signupOk = false;
+		MemberVO mvo     = null;
 		int     RegNumber= this.runGetPKNum()+1;
 		try {
 			
 			sql = null;
 			sql = new StringBuffer();
 			sql.append("INSERT INTO MEMBERLIST" 
-					+ " (P80_REGNUMBER, P80_EMAIL, P80_ID, P80_PW, P80_QUESTION, P80_ANSWER)" 
+					+ " (P80_REGNUMBER, P80_EMAIL, P80_ID, P80_PW, P80_QUESTION, P80_ANSWER, p80_SCORE)" 
 					+ " values (?, ?, ?, ?, ?, ?)");
 			con = dbMgr.getConnection();
 			pstmt = con.prepareStatement(sql.toString());			
-			pstmt.setInt(1, RegNumber);
+			pstmt.setInt   (1, RegNumber);
 			pstmt.setString(2, loginEmail);
 			pstmt.setString(3, loginID);
 			pstmt.setString(4, loginPW);
 			pstmt.setString(5, loginQuestion);
 			pstmt.setString(6, loginAnswer);
+			pstmt.setInt   (7, 101);
 			pstmt.executeUpdate();
 			dbMgr.freeConnection(con, pstmt);
 			signupOk = true;
@@ -236,6 +264,29 @@ public class DBLogic {
 	 * 또는 회원탈퇴 누르는순간 창을 하나 더 띄워서 ID PW값을 입력 받도록.
 	 * 
 	 */
+	
+	/**
+	 * 지금 아이디 비밀번호 바꿀비밀번호를 입력받아 테이블 UPDATE해주는 SQL명령어.
+	 * @param nowID
+	 * @param nowPW
+	 * @param changedPW
+	 */
+	public void runChangePW(String nowID, String nowPW, String changedPW) {
+		sql = null;
+		sql = new StringBuffer();
+		sql.append("UPDATE MEMBERLIST SET p80_pw =? WHERE P80_ID = ? AND P80_PW = ?");
+		try {
+			con = dbMgr.getConnection();
+			pstmt = con.prepareStatement(sql.toString());
+			pstmt.setString(1, changedPW);
+			pstmt.setString(2, nowID);
+			pstmt.setString(3, nowPW);
+			pstmt.executeUpdate();
+			dbMgr.freeConnection(con, pstmt);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	public void runSignOut(String savedP80_ID, String savedP80_PW) {
 		sql = null;
 		sql = new StringBuffer();

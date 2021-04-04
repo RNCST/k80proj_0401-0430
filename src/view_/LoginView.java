@@ -5,10 +5,7 @@ import java.awt.Font;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.io.File;
-import java.io.IOException;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -19,7 +16,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import DBLogic.DBLogic;
+import DAO.DAO;
+import pVO.MemberVO;
 import run_._run;
 
 /**
@@ -55,6 +53,7 @@ public class LoginView extends JFrame implements ActionListener  {
 	Font   font                 = null;
 	private String       getID   = "123";
 	private String       getPW	= "123";
+	MemberVO[]     memberList   =null;
 
 public String getGetID() {
 		return getID;
@@ -73,8 +72,9 @@ public String getGetID() {
 	}
 
 	//	LoginVO         LVO          = null;
-	DBLogic         dblogic      = new DBLogic();
+	DAO         dblogic      = new DAO();
 //	prjDAO          pDAO         = null;		
+	
 	public static synchronized LoginView getInstance() {
 		if(loginView == null) {
 			loginView = new LoginView();
@@ -202,6 +202,9 @@ public String getGetID() {
 			
 			} else {
 				JOptionPane.showMessageDialog(this, "아이디와 비밀번호를 확인해주세요.");
+				jtf_id.setText("");
+				jtf_pw.setText("");
+				
 			}
 			
 		

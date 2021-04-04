@@ -11,7 +11,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-import DBLogic.DBLogic;
+import DAO.DAO;
 
 public class SignOutView extends JDialog implements ActionListener {
 	private static SignOutView signOutView = new SignOutView() ;
@@ -30,7 +30,7 @@ public class SignOutView extends JDialog implements ActionListener {
 
 	Font font = null;
 
-	DBLogic dblogic = new DBLogic();
+	DAO dblogic = new DAO();
 	
 	
 	public static SignOutView getInstacne() {

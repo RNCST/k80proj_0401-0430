@@ -16,7 +16,7 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
-import DBLogic.DBLogic;
+import DAO.DAO;
 
 public class SignUpView extends JDialog implements ActionListener, ItemListener {
 	private static SignUpView signUpView = new SignUpView();
@@ -44,7 +44,7 @@ public class SignUpView extends JDialog implements ActionListener, ItemListener 
 
 	Font font = null;
 
-	DBLogic dblogic = new DBLogic();
+	DAO dblogic = new DAO();
 
 	boolean duplicateIDOk = false;
 	boolean signupOk = false;

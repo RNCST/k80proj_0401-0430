@@ -1,4 +1,4 @@
-package dao_;
+package DBConnection;
 
 import java.io.Reader;
 

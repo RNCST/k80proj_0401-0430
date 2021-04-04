@@ -17,7 +17,7 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import DBLogic.DBLogic;
+import DAO.DAO;
 import basic.mail.SendMail;
 
 public class SearchView extends JDialog implements ActionListener {
@@ -54,7 +54,7 @@ public class SearchView extends JDialog implements ActionListener {
 
 	Font font = null;
 	
-	DBLogic dbLogic = new DBLogic();
+	DAO dbLogic = new DAO();
 	
 
 	public static SearchView getInstance() {

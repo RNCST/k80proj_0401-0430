@@ -4,9 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.FlowLayout;
 import java.awt.Font;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -17,7 +17,7 @@ import javax.swing.JSplitPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import DBLogic.DBLogic;
+import DAO.DAO;
 
 /**
  * @author OSH Setting button action 받으면 jp_2 3 4 번과 SettingView panel jp_2 3 4
@@ -34,11 +34,11 @@ public class SettingView extends JFrame implements ActionListener {
 	JLabel jl_title = null;
 	String verticalTitle = null;
 
-	JButton jb_changeNickName = null;
+	JButton jb_changePW = null;
 	JButton jb_logOut = null;
 	JButton jb_signOut = null;
 
-	JButton jb_report = null;
+	JButton jb_changeNickname = null;
 	JButton jb_creator = null;
 	JButton jb_ver = null;
 
@@ -57,7 +57,7 @@ public class SettingView extends JFrame implements ActionListener {
 	JSplitPane jspp_2 = null;
 	JSplitPane jspp_3 = null;
 
-	DBLogic        dblogic      = new DBLogic();
+	DAO        dblogic      = new DAO();
 	
 	public static SettingView getInstance() {
 		if(settingView == null) {
@@ -86,23 +86,23 @@ public class SettingView extends JFrame implements ActionListener {
 		jl_title = new JLabel();
 		jl_title.setText("<html>p<br>o<br>p<br><br>c<br>h<br>a<br>t<br><br>v<br>e<br>r<br>.<br>0<br>.<br>0<br>0</html>");
 
-		jb_changeNickName = new JButton("닉네임변경");
+		jb_changePW = new JButton("비밀번호변경");
 		jb_logOut = new JButton("로그아웃");
 		jb_signOut = new JButton("회원탈퇴");
 
-		jb_report = new JButton("신고하기");
+		jb_changeNickname = new JButton("1");
 		jb_creator = new JButton("만든자들");
 		jb_ver = new JButton(" 버전   ");
 
-		jb_refresh = new JButton("새로고침");
-		jb_unde = new JButton(" 미정 ");
-		jb_goback = new JButton("<html>채팅창으로<br>&nbsp돌아가기&nbsp</html>");
+		jb_refresh = new JButton("<html>닉네임<br>변  경</html>");
+		jb_unde = new JButton("           ");
+		jb_goback = new JButton("<html>돌아가기</html>");
 
-		jb_changeNickName.addActionListener(this);
+		jb_changePW.addActionListener(this);
 		jb_logOut.addActionListener(this);
 		jb_signOut.addActionListener(this);
 
-		jb_report.addActionListener(this);
+		jb_changeNickname.addActionListener(this);
 		jb_creator.addActionListener(this);
 		jb_ver.addActionListener(this);
 
@@ -132,20 +132,21 @@ public class SettingView extends JFrame implements ActionListener {
 
 		jp_2.setBorder(tb_1);
 		jp_2.setLayout(new FlowLayout());
-		jp_2.add(jb_changeNickName);
+		jp_2.add(jb_changePW);
 		jp_2.add(jb_logOut);
 		jp_2.add(jb_signOut);
 
 		jp_3.setBorder(tb_1);
 		jp_3.setLayout(new FlowLayout());
-		jp_3.add(jb_report);
+		jp_3.add(jb_changeNickname);
 		jp_3.add(jb_creator);
 		jp_3.add(jb_ver);
 
 		jp_4.setBorder(tb_1);
-		jp_4.setLayout(new FlowLayout());
+		jp_4.setLayout(new GridLayout(3,1,0,0));
 		jp_4.add(jb_refresh);
 		jp_4.add(jb_unde);
+		jb_unde.setEnabled(false);
 		jp_4.add(jb_goback);
 
 		setSize(1120, 400);
@@ -169,8 +170,10 @@ public class SettingView extends JFrame implements ActionListener {
 		MainLobbyView mainLobbyViewInstance = MainLobbyView.getInstance();
 		LoginView loginViewInstance = LoginView.getInstance();
 		SignOutView signOutViewInstance = SignOutView.getInstacne();
+		ChangePWView changePWViewInstance = ChangePWView.getInstance();
 		Object obj = e.getSource();
-		if (jb_changeNickName == obj) {
+		if (jb_changePW == obj) {
+			changePWViewInstance.initDisplay();
 
 		} else if (jb_logOut == obj) {
 			dispose();
@@ -180,8 +183,8 @@ public class SettingView extends JFrame implements ActionListener {
 		} else if (jb_signOut == obj) {
 			signOutViewInstance.initDisplay();
 
-		} else if (jb_report == obj) {
-
+		} else if (jb_changeNickname == obj) {
+			
 		} else if (jb_creator == obj) {
 			JOptionPane.showMessageDialog(this, "1111111");
 		} else if (jb_ver == obj) {

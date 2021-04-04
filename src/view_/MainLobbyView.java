@@ -28,17 +28,17 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	JPanel         jp_4       = null;
 	JLabel         jl_title   = null;
 	
-	JButton        jb_1       = null;
-	JButton        jb_2       = null;
-	JButton        jb_3       = null;
-	JButton        jb_4       = null;
-	JButton        jb_5       = null;
-	JButton        jb_6       = null;
-	JButton        jb_7       = null;
-	JButton        jb_8       = null;
-	JButton        jb_9       = null;
+	JButton        jb_r1       = null;
+	JButton        jb_r2       = null;
+	JButton        jb_r3       = null;
+	JButton        jb_r4       = null;
+	JButton        jb_r5       = null;
+	JButton        jb_r6       = null;
+	JButton        jb_r7       = null;
+	JButton        jb_r8       = null;
+	JButton        jb_r9       = null;
 	
-	JButton        jb_refresh = null;
+	JButton        jb_changeNickname = null;
 	JButton        jb_unde    = null;
 	JButton        jb_setting = null;
 	
@@ -67,6 +67,16 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	String          room7      = null;
 	String          room8      = null;
 	String          room9      = null;
+	
+	int             r1_score   = 0;
+	int             r2_score   = 0;
+	int             r3_score   = 0;
+	int             r4_score   = 0;
+	int             r5_score   = 0;
+	int             r6_score   = 0;
+	int             r7_score   = 0;
+	int             r8_score   = 0;
+	int             r9_score   = 0;
 	
 	
 	public static MainLobbyView getInstance() {
@@ -99,33 +109,33 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	    jl_title          = new JLabel();
 	    jl_title.setText("<html>p<br>o<br>p<br><br>c<br>h<br>a<br>t<br><br>v<br>e<br>r<br>.<br>0<br>.<br>0<br>0</html>");
 	    
-	    jb_1       = new 	JButton    (room1);
-	    jb_2       = new 	JButton    (room2);
-	    jb_3       = new 	JButton    (room3);
-	    jb_4       = new 	JButton    (room4);
-	    jb_5       = new 	JButton    (room5);
-	    jb_6       = new 	JButton    (room6);
-	    jb_7       = new 	JButton    (room7);
-	    jb_8       = new 	JButton    (room8);
-	    jb_9       = new 	JButton    (room9);
+	    jb_r1       = new 	JButton    (room1);
+	    jb_r2       = new 	JButton    (room2);
+	    jb_r3       = new 	JButton    (room3);
+	    jb_r4       = new 	JButton    (room4);
+	    jb_r5       = new 	JButton    (room5);
+	    jb_r6       = new 	JButton    (room6);
+	    jb_r7       = new 	JButton    (room7);
+	    jb_r8       = new 	JButton    (room8);
+	    jb_r9       = new 	JButton    (room9);
 	    
-	    jb_refresh = new 	JButton    ("<html>새로<br>고침</html>");
+	    jb_changeNickname = new 	JButton    ("<html>닉네임<br>변  경</html>");
 	    jb_unde    = new 	JButton    ("미정");
 	    jb_setting = new 	JButton    ("설 정");
 
-	    jb_1.addActionListener(this);
-	    jb_2.addActionListener(this);
-	    jb_3.addActionListener(this);
-	    jb_4.addActionListener(this);
-	    jb_5.addActionListener(this);
-	    jb_6.addActionListener(this);
-	    jb_7.addActionListener(this);
-	    jb_8.addActionListener(this);
-	    jb_9.addActionListener(this);
-	    jb_refresh.addActionListener(this);
+	    jb_r1.addActionListener(this);
+	    jb_r2.addActionListener(this);
+	    jb_r3.addActionListener(this);
+	    jb_r4.addActionListener(this);
+	    jb_r5.addActionListener(this);
+	    jb_r6.addActionListener(this);
+	    jb_r7.addActionListener(this);
+	    jb_r8.addActionListener(this);
+	    jb_r9.addActionListener(this);
+	    jb_changeNickname.addActionListener(this);
 	    jb_unde.addActionListener(this);
 	    jb_setting.addActionListener(this);
-	    
+	    	    
 	    jtf_gettext = new 	JTextField ();
 	    jtf_showtext= new 	JTextField ();
 	
@@ -158,20 +168,21 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		
 		jp_3.setBorder(tb_1);
 		jp_3.setLayout(new GridLayout(3, 3, 10, 10));
-		jp_3.add(jb_1);
-		jp_3.add(jb_2);
-		jp_3.add(jb_3);
-		jp_3.add(jb_4);
-		jp_3.add(jb_5);
-		jp_3.add(jb_6);
-		jp_3.add(jb_7);
-		jp_3.add(jb_8);
-		jp_3.add(jb_9);
+		jp_3.add(jb_r1);
+		jp_3.add(jb_r2);
+		jp_3.add(jb_r3);
+		jp_3.add(jb_r4);
+		jp_3.add(jb_r5);
+		jp_3.add(jb_r6);
+		jp_3.add(jb_r7);
+		jp_3.add(jb_r8);
+		jp_3.add(jb_r9);
 		
 		jp_4.setBorder(tb_1);
 		jp_4.setLayout(new GridLayout(3,1,0,0));
-		jp_4.add(jb_refresh);
+		jp_4.add(jb_changeNickname);
 		jp_4.add(jb_unde);
+		jb_unde.setEnabled(false);
 		jp_4.add(jb_setting);
 		
 		setSize(1120,400);
@@ -180,6 +191,23 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		setLocationRelativeTo(null);
 		setResizable(false);
 		System.out.println("===MainLobbyView initdisplay(); 실행성공");
+	}
+	
+	public void refreshButton() {
+		jb_r1.setEnabled(true);
+		jb_r2.setEnabled(true);
+		jb_r3.setEnabled(true);
+		jb_r4.setEnabled(true);
+		jb_r5.setEnabled(true);
+		jb_r6.setEnabled(true);
+		jb_r7.setEnabled(true);
+		jb_r8.setEnabled(true);
+		jb_r9.setEnabled(true);
+	}
+	
+	public int setScore(int roomnum) {
+	
+		return roomnum;
 	}
 	
 	
@@ -195,25 +223,34 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		SettingView settingViewInstance = SettingView.getInstance();
 		Object obj = e.getSource();
 		
-		if(jb_1 == obj) {
-			
-		}else if(jb_2 == obj) {
-			
-		}else if(jb_3 == obj) {
-		
-		}else if(jb_4 == obj) {
-			
-		}else if(jb_5 == obj) {
-		
-		}else if(jb_6 == obj) {
-			
-		}else if(jb_7 == obj) {	
-		
-		}else if(jb_8 == obj) {	
-			
-		}else if(jb_9 == obj) {	
-			
-		}else if(jb_refresh == obj) {
+		if(jb_r1 == obj) {
+			refreshButton();
+			jb_r1.setEnabled(false);
+		}else if(jb_r2 == obj) {
+			refreshButton();
+			jb_r2.setEnabled(false);
+		}else if(jb_r3 == obj) {
+			refreshButton();
+			jb_r3.setEnabled(false);
+		}else if(jb_r4 == obj) {
+			refreshButton();
+			jb_r4.setEnabled(false);
+		}else if(jb_r5 == obj) {
+			refreshButton();
+			jb_r5.setEnabled(false);
+		}else if(jb_r6 == obj) {
+			refreshButton();
+			jb_r6.setEnabled(false);
+		}else if(jb_r7 == obj) {	
+			refreshButton();
+			jb_r7.setEnabled(false);
+		}else if(jb_r8 == obj) {	
+			refreshButton();
+			jb_r8.setEnabled(false);
+		}else if(jb_r9 == obj) {	
+			refreshButton();
+			jb_r9.setEnabled(false);
+		}else if(jb_changeNickname == obj) {
 			
 		}else if(jb_unde == obj) {
 			
