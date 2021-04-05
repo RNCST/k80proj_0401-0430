@@ -12,6 +12,7 @@ public class LoginServerThread extends Thread{
 	       ObjectInputStream  ois     = null;
 	       
 	       public LoginServerThread(LoginServer loginServer) {
+	    	   System.out.println("===LoginServerThread(LoginServer)");
 	    	   this.loginServer  = loginServer;
 	    	   this.clientSocket = loginServer.acceptSocket;
 	    	   try {
@@ -35,6 +36,7 @@ public class LoginServerThread extends Thread{
 	       }
 	       
 	       public void send(String msg) {
+	    	   System.out.println("===run loginServerThread send()");
 	    	   try {
 				oos.writeObject(msg);
 			} catch (Exception e) {
@@ -52,6 +54,9 @@ public class LoginServerThread extends Thread{
 						msg = (String) ois.readObject();
 						StringTokenizer st = null;
 						int protocol = 0;
+						if(msg == "") {
+							msg = " ";
+						}
 						if(msg != null ) {
 							st = new StringTokenizer(msg,"#");
 							protocol = Integer.parseInt(st.nextToken());
@@ -71,6 +76,7 @@ public class LoginServerThread extends Thread{
 												    + message  +"#");
 						}
 						break;
+						
 						case Protocol.ROOM_IN: {
 							System.out.println("===run LoginServerThread Protocol.Room_In");
 							String nickName = st.nextToken();

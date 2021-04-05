@@ -9,6 +9,7 @@ import java.util.Vector;
 public class LoginServer implements Runnable {
 	LoginServerThread       loginServerThread    = null;
 	public  List<LoginServerThread> globalList   = null;
+//	public  List<Room             > roomList     = null;
 //	public  List<LoginServerThread> 
 	ServerSocket    serverSocket                 = null;
 	Socket          acceptSocket                 = null;
@@ -22,12 +23,12 @@ public class LoginServer implements Runnable {
 	}
 	@Override
 	public void run() {
-		System.out.println("=== LoginServer main()");
+		System.out.println("===run LoginServer run()");
 		globalList = new Vector<>();
 		Calendar cal = Calendar.getInstance();
 		boolean isStop = false;
 		try {
-			serverSocket = new ServerSocket(5500);
+			serverSocket = new ServerSocket(5550);
 			System.out.println("===ServerSocket Ready");
 			while(!isStop) {
 				acceptSocket = serverSocket.accept();

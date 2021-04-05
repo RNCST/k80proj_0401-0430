@@ -164,7 +164,7 @@ public class LoginClient2 extends JFrame implements ActionListener {
 			try {
 				oos.writeObject(Protocol.ROOM_OUT
 						        + Protocol.seperator 
-						        + this.nickName);
+						        + nickName);
 				// 자바가상머신과 연결고리 끊기
 				System.exit(0);
 			} catch (Exception e) {
