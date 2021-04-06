@@ -21,9 +21,13 @@ public class LoginClientThread extends Thread {
 		while(!isStop){
 			try {
 				String msg = null;
-				System.out.println("msg be");
+				System.out.println("111");
+				System.out.println("111");
+				System.out.println("111");
 				msg = (String)loginClient.ois.readObject();
-				System.out.println("msg af");
+				System.out.println("111");
+				System.out.println("111");
+				System.out.println("111");
 				StringTokenizer st =null;
 				int protocol = 0;
 				if(msg !=null) {
@@ -32,7 +36,13 @@ public class LoginClientThread extends Thread {
 					System.out.println(msg);
 				}
 				switch(protocol) {
+				
 				case Protocol.MESSAGE:{
+					if(msg !=null) {
+						st = new StringTokenizer(msg, "#");
+						protocol = Integer.parseInt(st.nextToken());
+						System.out.println(msg);
+					}
 					System.out.println("LoginClientThread's protocol.message");
 					String nickName = st.nextToken();
 					String message  = st.nextToken();
@@ -40,10 +50,10 @@ public class LoginClientThread extends Thread {
 					System.out.println(message);
 					
 					
-					mainLobbyView.jtf_showtext.setText("["+nickName+"]"+message
-					 									+"\n");
-					mainLobbyView.jtf_showtext.setCaretPosition
-					(mainLobbyView.jtf_showtext.getDocument().getLength());
+					mainLobbyView.jta_showtext.append("["+nickName+"]"+msg+"\n");
+					mainLobbyView.jta_showtext.setCaretPosition
+					(mainLobbyView.jta_showtext.getDocument().getLength());
+					
 					
 				}break;
 				case Protocol.ROOM_OUT:{

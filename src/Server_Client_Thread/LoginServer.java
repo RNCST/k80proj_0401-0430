@@ -9,7 +9,7 @@ import java.util.Vector;
 public class LoginServer implements Runnable {
 	LoginServerThread       loginServerThread    = null;
 	public  List<LoginServerThread> globalList   = null;
-//	public  List<Room             > roomList     = null;
+//	public  List<Room>              roomList     = null;
 //	public  List<LoginServerThread> 
 	ServerSocket    serverSocket                 = null;
 	Socket          acceptSocket                 = null;

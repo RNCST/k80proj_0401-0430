@@ -6,7 +6,6 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
@@ -18,15 +17,23 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import Server_Client_Thread.LoginClient;
 import Server_Client_Thread.Protocol;
+import Server_Client_Thread_2.LoginClientThread;
 
 public class MainLobbyView extends JFrame implements ActionListener{
 	private static MainLobbyView mainLobbyView = new MainLobbyView();
+//======================================================================
+	    Socket clientSocket = null;
+	    public ObjectOutputStream oos = null;
+	    public ObjectInputStream  ois = null;
+//======================================================================
+	
 	
 	String         nickName   = null;
 	JPanel         jp_1       = null;
@@ -53,7 +60,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	JButton        jb_setting = null;
 	
 	public JTextField jtf_gettext    = null;
-	public JTextField jtf_showtext   = null;
+	public JTextArea  jta_showtext   = null;
 	
 	JScrollPane    jsp_scroll = null;   
 	
@@ -165,10 +172,10 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	    jb_setting.addActionListener(this);
 	    	    
 	    jtf_gettext = new 	JTextField ();
-	    jtf_showtext= new 	JTextField ();
+	    jta_showtext= new 	JTextArea ();
 	    jtf_gettext.addActionListener(this);
 	
-	    jsp_scroll = new 	JScrollPane(jtf_showtext);  
+	    jsp_scroll = new 	JScrollPane(jta_showtext);  
 	    
 	    tb_1     = new TitledBorder(new LineBorder(Color.black));
 	    
@@ -194,11 +201,11 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		
 		jp_2.setBorder(tb_1);
 		jp_2.setLayout(new BorderLayout());
-		jp_2.add("Center",jtf_showtext);
-		jtf_showtext.setEnabled(false);
+		jp_2.add("Center",jta_showtext);
+		jta_showtext.setEnabled(false);
 
 
-		jtf_showtext.setOpaque(false);
+		jta_showtext.setOpaque(false);
 		jp_2.add("South",jp_message);
 		jp_message.setLayout(new BorderLayout());
 		jp_message.add("Center",jtf_gettext);
@@ -231,7 +238,6 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		setResizable(false);
 		System.out.println("===MainLobbyView initdisplay(); 실행성공");
 	}
-	
 	public void refreshButton() {
 		jb_r1.setEnabled(true);
 		jb_r2.setEnabled(true);
@@ -243,6 +249,19 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		jb_r8.setEnabled(true);
 		jb_r9.setEnabled(true);
 	}
+	public void init() {
+		System.out.println("===run LoginClient init()");
+    	try {
+    		clientSocket = new Socket("127.0.0.1",2085);
+    		oos = new ObjectOutputStream(clientSocket.getOutputStream());
+    		ois = new ObjectInputStream (clientSocket.getInputStream());
+    		oos.writeObject(Protocol.seperator + Protocol.seperator + nickName);
+    		LoginClientThread loginClientThread = new LoginClientThread(this);
+    		loginClientThread.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+    }
 	
 	public int setScore(int roomnum) {
 	
@@ -254,7 +273,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	}
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		LoginClient loginClient = new LoginClient(this);
+		LoginClient loginClient = new LoginClient();
 		String msg = jtf_gettext.getText();
 		SettingView settingViewInstance = SettingView.getInstance();
 		Object obj = e.getSource();
@@ -290,11 +309,18 @@ public class MainLobbyView extends JFrame implements ActionListener{
 			
 		}else if(jtf_gettext == obj) {
 			System.out.println("jtf_gettext action");
-			loginClient.message(msg, nickName);
-			
+			try {
+				oos.writeObject(Protocol.MESSAGE
+							    + Protocol.seperator
+							    + nickName
+							    + Protocol.seperator
+							    + msg);
+				jtf_gettext.setText("");
+			} catch (Exception e2) {
+
+			}
 		}else if(jb_send == obj) {
 			System.out.println("jb_send action");
-			loginClient.message(msg, nickName);
 		}else if(jb_changeNickname == obj) {
 			
 		}else if(jb_unde == obj) {

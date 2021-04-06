@@ -20,9 +20,12 @@ public class LoginServerThread extends Thread{
 	    		   ois = new ObjectInputStream(clientSocket.getInputStream());
 	    		   String msg = (String) ois.readObject();
 	    		   
+	    		   //loginServer.gta_log.append(msg)
 	    		   StringTokenizer st = new StringTokenizer(msg, "#");
 	    		   st.nextToken();
-				
+	    		   //NickName = st.nextToken();
+	    		   //loginServer.jta_log.append(NickName + "님이 입장하였습니다);
+	    		   //login.globalList.add(this); 
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
@@ -70,10 +73,9 @@ public class LoginServerThread extends Thread{
 							if(message=="") {
 								message= " ";
 							}
-							System.out.println("==="+ Protocol.MESSAGE
-												    + "#"
-												    + nickName +"#"
-												    + message  +"#");
+							System.out.println("==="+ Protocol.MESSAGE + Protocol.seperator
+												    + nickName +Protocol.seperator
+												    + message  +Protocol.seperator);
 						}
 						break;
 						
@@ -81,8 +83,8 @@ public class LoginServerThread extends Thread{
 							System.out.println("===run LoginServerThread Protocol.Room_In");
 							String nickName = st.nextToken();
 							System.out.println("==="+ Protocol.ROOM_IN
-													+ "#"
-													+ nickName +"#");
+													+ Protocol.seperator
+													+ nickName + Protocol.seperator);
 							
 						}
 						break;
@@ -91,8 +93,8 @@ public class LoginServerThread extends Thread{
 							String nickName = st.nextToken();
 							loginServer.globalList.remove(this);
 							System.out.println("==="+ Protocol.ROOM_OUT
-								    				+ "#"
-								    				+ nickName +"#");
+								    				+ Protocol.seperator
+								    				+ nickName +Protocol.seperator);
 						}
 						break run_start;
 						}

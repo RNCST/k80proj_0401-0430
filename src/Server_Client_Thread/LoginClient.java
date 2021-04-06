@@ -1,12 +1,8 @@
 package Server_Client_Thread;
 
-import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
-import java.net.UnknownHostException;
-import java.util.List;
-import java.util.Vector;
 
 import view_.MainLobbyView;
 
@@ -17,12 +13,6 @@ public class LoginClient {
 	ObjectInputStream  ois = null;
 	String nickName = null;
 	
-	public LoginClient(MainLobbyView mainLobbyView2) {
-		init();
-	}
-	public LoginClient() {
-		
-	}
 	public void init() {
 		try {
 			clientSocket = new Socket("127.0.0.1", 5550 );
@@ -43,6 +33,7 @@ public class LoginClient {
 		LoginClient loginClient = new LoginClient();
 		loginClient.init();
 	}
+	
 	public void message(String msg, String nickName) {
 		try {
 			oos.writeObject(Protocol.MESSAGE
@@ -51,6 +42,7 @@ public class LoginClient {
 						    + Protocol.seperator
 						    + msg);
 			mainLobbyView.jtf_gettext.setText("");
+			System.out.println("=========");
 		} catch (Exception e2) {
 			e2.printStackTrace();
 		}
