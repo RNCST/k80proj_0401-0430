@@ -23,8 +23,8 @@ import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
 import Server_Client_Thread.LoginClient;
+import Server_Client_Thread.LoginClientThread;
 import Server_Client_Thread.Protocol;
-import Server_Client_Thread_2.LoginClientThread;
 
 public class MainLobbyView extends JFrame implements ActionListener{
 	private static MainLobbyView mainLobbyView = new MainLobbyView();
@@ -180,6 +180,17 @@ public class MainLobbyView extends JFrame implements ActionListener{
 	    tb_1     = new TitledBorder(new LineBorder(Color.black));
 	    
 	    ft1      = new Font("Ariel", Font.BOLD, 13);
+	    try {
+			if(clientSocket == null) {
+				clientSocket = new Socket("127.0.0.1",5085);
+	    		oos = new ObjectOutputStream(clientSocket.getOutputStream());
+	    		ois = new ObjectInputStream (clientSocket.getInputStream());
+	    		oos.writeObject(Protocol.seperator + Protocol.seperator + nickName);
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	    
 	    	    
 	    System.out.println("===MainLobby디폴트생성자 생성 성공");
 	}
@@ -317,7 +328,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 							    + msg);
 				jtf_gettext.setText("");
 			} catch (Exception e2) {
-
+				e2.printStackTrace();
 			}
 		}else if(jb_send == obj) {
 			System.out.println("jb_send action");
