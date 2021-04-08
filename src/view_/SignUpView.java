@@ -16,10 +16,15 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import DAO.DAO;
+import Server_Client_Thread.LoginServer;
 
 public class SignUpView extends JDialog implements ActionListener, ItemListener {
 	private static SignUpView signUpView = new SignUpView();
+//	Logger logger = LogManager.getLogger(SignUpView.class);
 
 	Container pane = null;
 	JButton jb_signUp = null;

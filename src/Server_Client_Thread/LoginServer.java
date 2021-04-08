@@ -5,8 +5,15 @@ import java.net.Socket;
 import java.util.List;
 import java.util.Vector;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+
+import view_.MainLobbyView;
+
 
 public class LoginServer implements Runnable {
+	Logger logger = LogManager.getLogger(LoginServer.class);
 	
 	LoginServerThread loginServerThread = null;
 	public List<LoginServerThread>  globalList = null;
@@ -17,23 +24,26 @@ public class LoginServer implements Runnable {
 
 	
 	public static void main(String[] args) {
-		System.out.println("===run LoginServer main()");
+		System.setProperty
+		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 		LoginServer loginServer = new LoginServer();
 		Thread thread = new Thread(loginServer);
 		thread.start();
+		Logger logger = LogManager.getLogger(LoginServer.class);
+		logger.info("===run ");
 		
 	}
 
 	@Override
 	public void run() {
-		System.out.println("===run LoginServer run()");
+		logger.info("===run LoginServer run()");
 		globalList      = new Vector<>();
 		boolean isStop  = false;
 		try {
 			serverSocket = new ServerSocket(5085);
 			while(!isStop) {
 			acceptedSocket = serverSocket.accept();
-			System.out.println("AcceptedSocket");
+			logger.info("AcceptedSocket");
 			loginServerThread = new LoginServerThread(this);
 			loginServerThread.start();
 			}

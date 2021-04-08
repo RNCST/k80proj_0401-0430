@@ -22,12 +22,19 @@ import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+
 import Server_Client_Thread.LoginClient;
 import Server_Client_Thread.LoginClientThread;
+import Server_Client_Thread.LoginServer;
 import Server_Client_Thread.Protocol;
 
 public class MainLobbyView extends JFrame implements ActionListener{
 	private static MainLobbyView mainLobbyView = new MainLobbyView();
+	
+//	Logger logger = LogManager.getLogger(MainLobbyView.class);
 //======================================================================
 	    Socket clientSocket = null;
 	    public ObjectOutputStream oos = null;
@@ -111,15 +118,16 @@ public class MainLobbyView extends JFrame implements ActionListener{
 //		this.oos = oos;
 //		this.ois = ois;
 //		this.nickName = nickName;
-//		System.out.println(this.clientSocket);
-//		System.out.println(this.oos);
-//		System.out.println(this.ois);
-//		System.out.println(this.nickName);
+//		logger.info(this.clientSocket);
+//		logger.info(this.oos);
+//		logger.info(this.ois);
+//		logger.info(this.nickName);
 //	}
 	
 	
 	public MainLobbyView() {
-		
+		System.setProperty
+		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 	    jp_1       = new 	JPanel     ();
 	    jp_2       = new 	JPanel     ();
 	    jp_3       = new 	JPanel     ();
@@ -190,14 +198,14 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	    
 	    	    
+//	    logger.info("===MainLobby디폴트생성자 생성 성공");
 	    System.out.println("===MainLobby디폴트생성자 생성 성공");
 	}
 	public void initdisplay() {
 		nickName = JOptionPane.showInputDialog("닉네임을 입력하세요.");
 		
-		
+		this.
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		getContentPane().setBackground(Color.white);
 		add(jspp_3, BorderLayout.CENTER);
@@ -247,6 +255,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		setVisible(true);
 		setLocationRelativeTo(null);
 		setResizable(false);
+//		logger.info("===MainLobbyView initdisplay(); 실행성공");
 		System.out.println("===MainLobbyView initdisplay(); 실행성공");
 	}
 	public void refreshButton() {
@@ -261,12 +270,14 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		jb_r9.setEnabled(true);
 	}
 	public void init() {
+//		logger.info("===run LoginClient init()");
 		System.out.println("===run LoginClient init()");
+//		System.out.println(logger);
     	try {
     		clientSocket = new Socket("127.0.0.1",2085);
     		oos = new ObjectOutputStream(clientSocket.getOutputStream());
     		ois = new ObjectInputStream (clientSocket.getInputStream());
-    		oos.writeObject(Protocol.seperator + Protocol.seperator + nickName);
+    		oos.writeObject(Protocol.ROOM_IN + Protocol.seperator + nickName);
     		LoginClientThread loginClientThread = new LoginClientThread(this);
     		loginClientThread.start();
 		} catch (Exception e) {
@@ -279,6 +290,8 @@ public class MainLobbyView extends JFrame implements ActionListener{
 		return roomnum;
 	}	
 	public static void main(String[] args) {
+//		System.setProperty
+//		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 		MainLobbyView mlv = new MainLobbyView();
 		mlv.initdisplay();
 	}
@@ -319,8 +332,10 @@ public class MainLobbyView extends JFrame implements ActionListener{
 			
 			
 		}else if(jtf_gettext == obj) {
+//			logger.info("jtf_gettext action");
 			System.out.println("jtf_gettext action");
 			try {
+				System.out.println(oos);
 				oos.writeObject(Protocol.MESSAGE
 							    + Protocol.seperator
 							    + nickName
@@ -331,6 +346,7 @@ public class MainLobbyView extends JFrame implements ActionListener{
 				e2.printStackTrace();
 			}
 		}else if(jb_send == obj) {
+//			logger.info("jb_send action");
 			System.out.println("jb_send action");
 		}else if(jb_changeNickname == obj) {
 			

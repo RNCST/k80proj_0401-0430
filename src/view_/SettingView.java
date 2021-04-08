@@ -17,7 +17,12 @@ import javax.swing.JSplitPane;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+
 import DAO.DAO;
+import Server_Client_Thread.LoginServer;
 
 /**
  * @author OSH Setting button action 받으면 jp_2 3 4 번과 SettingView panel jp_2 3 4
@@ -25,6 +30,7 @@ import DAO.DAO;
  * 
  */
 public class SettingView extends JFrame implements ActionListener {
+//	Logger logger = LogManager.getLogger(SettingView.class);
 	private static SettingView settingView = new SettingView();
 	
 	JPanel jp_1 = null;
@@ -115,6 +121,7 @@ public class SettingView extends JFrame implements ActionListener {
 		ft1 = new Font("Ariel", Font.BOLD, 13);
 
 		System.out.println("===SettingView디폴트생성자 생성 성공");
+//		logger.info("===SettingView디폴트생성자 생성 성공");
 		
 	}
 
@@ -155,13 +162,19 @@ public class SettingView extends JFrame implements ActionListener {
 		setLocationRelativeTo(null);
 		setResizable(false);
 		System.out.println("===SettingView initdisplay(); 실행성공");
+//		logger.info("===SettingView initdisplay(); 실행성공");
 	}
 
 	public static void main(String[] args) {
+//		System.setProperty
+//		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 		SettingView sv = new SettingView();
 //		System.out.println(sv.verticalTitle);
 		sv.initdisplay();
 		System.out.println(LoginView.getInstance().getGetID());
+//		Logger logger = LogManager.getLogger(SettingView.class);
+//		logger.info(LoginView.getInstance().getGetID());
+		System.out.println("==="+"LoginView.getInstance().getGetID()");
 		
 	}
 

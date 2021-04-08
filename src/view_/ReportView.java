@@ -10,8 +10,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 
-public class ReportView extends JDialog implements ActionListener{
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
+import Server_Client_Thread.LoginServer;
+
+public class ReportView extends JDialog implements ActionListener{
+//	Logger logger = LogManager.getLogger(ReportView.class);
 	JTextField jtf_nickName    = null;
 	JTextField jtf_time        = null;
 
@@ -24,6 +30,8 @@ public class ReportView extends JDialog implements ActionListener{
 
 	
 	public ReportView() {
+		System.setProperty
+		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 		
 		jtf_nickName    = new JTextField();
 		jtf_time        = new JTextField();

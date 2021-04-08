@@ -3,18 +3,24 @@ package Server_Client_Thread;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+
 import view_.MainLobbyView;
 
 public class LoginClientThread extends Thread {
+	Logger logger = LogManager.getLogger(LoginClientThread.class);
 	MainLobbyView mainLobbyView = null;
 	
 	public LoginClientThread(MainLobbyView mainLobbyView) {
-		System.out.println("===run LoginClientThread(LoginClient");
+		System.setProperty
+		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
+		logger.info("===run LoginClientThread(LoginClient");
 		this.mainLobbyView = mainLobbyView;
 	}
 	@Override
 	public void run() {
-		System.out.println("===run LoginClientThread run()");
 		boolean isStop = false;
 		while(!isStop) {
 			try {
@@ -41,14 +47,14 @@ public class LoginClientThread extends Thread {
 					
 					mainLobbyView.jta_showtext.append("["+nickName+"]"+message);
 					mainLobbyView.jta_showtext.setCaretPosition(
-					 mainLobbyView.jta_showtext.getDocument().getLength());
+					mainLobbyView.jta_showtext.getDocument().getLength());
 				}
 				break;
 				case Protocol.ROOM_OUT:{
 					String nickName = st.nextToken();
 					mainLobbyView.jta_showtext.append("["+nickName+"]"+"님이 퇴장 하였습니다.");
 					mainLobbyView.jta_showtext.setCaretPosition(
-							 mainLobbyView.jta_showtext.getDocument().getLength());
+				    mainLobbyView.jta_showtext.getDocument().getLength());
 					
 					
 				}

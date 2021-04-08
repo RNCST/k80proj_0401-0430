@@ -5,7 +5,12 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.StringTokenizer;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+
 public class LoginServerThread extends Thread{
+	Logger logger = LogManager.getLogger(LoginServerThread.class);
 	public LoginServer loginServer  = null;
 	Socket     clientSocket         = null;
 	ObjectOutputStream oos          = null;
@@ -14,15 +19,17 @@ public class LoginServerThread extends Thread{
 
 	
 	public LoginServerThread(LoginServer loginServer) {
-		System.out.println("===run LoginServerThread(LoginServer)");
+		System.setProperty
+		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
+		logger.info("===run LoginServerThread(LoginServer)");
 		this.loginServer  = loginServer;
 		this.clientSocket = loginServer.acceptedSocket;
 		try {
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());
 			ois = new ObjectInputStream (clientSocket.getInputStream());
 			String msg = (String) ois.readObject();
-			System.out.println(msg);
-			System.out.println(oos + "|"+ois);
+			logger.info(msg);
+			logger.info(oos + "|"+ois);
 			StringTokenizer st = new StringTokenizer(msg, Protocol.seperator);
 			st.nextToken();
 			NickName = st.nextToken();
@@ -45,7 +52,7 @@ public class LoginServerThread extends Thread{
 	}
 	@Override
 	public void run() {
-		System.out.println("===run LoginServerThread run()");
+		logger.info("===run LoginServerThread run()");
 		String msg = null;
 		boolean isStop = false;
 		try {
@@ -66,13 +73,18 @@ public class LoginServerThread extends Thread{
 						if(message=="") {
 							message= " ";
 						}
-						System.out.println(Protocol.MESSAGE
-								          +Protocol.seperator
-								          +nickName
-								          +Protocol.seperator
-								          +message
-								          +Protocol.seperator);
-						
+//						System.out.println(Protocol.MESSAGE
+//								          +Protocol.seperator
+//								          +nickName
+//								          +Protocol.seperator
+//								          +message
+//								          +Protocol.seperator);
+						logger.info(Protocol.MESSAGE
+						          +Protocol.seperator
+						          +nickName
+						          +Protocol.seperator
+						          +message
+						          +Protocol.seperator);
 					}
 					break;
 					case Protocol.ROOM_OUT: {

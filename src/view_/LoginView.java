@@ -16,7 +16,12 @@ import javax.swing.JOptionPane;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+
 import DAO.DAO;
+import Server_Client_Thread.LoginServer;
 import pVO.MemberVO;
 import run_._run;
 
@@ -27,6 +32,8 @@ import run_._run;
  */
 public class LoginView extends JFrame implements ActionListener  {
 	private static LoginView loginView = new LoginView() ;
+//	Logger logger = LogManager.getLogger(LoginView.class);
+	
 	
 	
 	JButton        jb_login   = null;
@@ -78,6 +85,7 @@ public String getGetID() {
 	public static synchronized LoginView getInstance() {
 		if(loginView == null) {
 			loginView = new LoginView();
+			
 		}
 		return loginView;
 	}
@@ -86,6 +94,8 @@ public String getGetID() {
 		/*
 		 * DB 연동을 여기에서 할지 RUN에서할지
 		 */
+//		System.setProperty
+//		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 		jb_login  = new JButton("LOGIN");
 		jb_cancel = new JButton("CANCEL");
 		jb_signUp = new JButton("회원가입");
@@ -110,6 +120,7 @@ public String getGetID() {
 		jl_version = new JLabel(_run.version);
 		
 
+//		logger.info("===LoginView 디폴트생성자 생성 성공");
 		System.out.println("===LoginView 디폴트생성자 생성 성공");
 		
 
@@ -135,6 +146,7 @@ public String getGetID() {
 	
 
 	public void initdisplay() {
+		
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		getContentPane().setLayout(null);
 		getContentPane().setBackground(Color.white);
@@ -174,10 +186,12 @@ public String getGetID() {
 		setSize(270, 500);
 		setLocationRelativeTo(null); 
 		setVisible(true);
+//		logger.info("===LoginView initdisplay(); 실행성공");
 		System.out.println("===LoginView initdisplay(); 실행성공");
 	}
 
 	public static void main(String[] args){
+		
 		LoginView.getInstance().initdisplay();
 	}
 
@@ -190,9 +204,13 @@ public String getGetID() {
 		Object obj = e.getSource();
 		if(jb_login == obj){
 //========== DB 확인 =====================================//	
+//			logger.info(jtf_id.getText());
 			System.out.println(jtf_id.getText());
+//			logger.info(jtf_pw.getText());
 			System.out.println(jtf_pw.getText());
 			if(dblogic.runLogin(jtf_id.getText(),jtf_pw.getText())==true) {
+				System.out.println("===loginServer Thread.start(run) ");
+//				logger.info("===loginServer Thread.start(run) ");
 				setGetID(jtf_id.getText());
 				setGetPW(jtf_pw.getText());
 				mainLobbyViewInstance.initdisplay();
