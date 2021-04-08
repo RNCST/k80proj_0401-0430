@@ -14,7 +14,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
-import Server_Client_Thread.LoginServer;
 
 public class ReportView extends JDialog implements ActionListener{
 //	Logger logger = LogManager.getLogger(ReportView.class);

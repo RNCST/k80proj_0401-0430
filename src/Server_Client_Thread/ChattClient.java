@@ -1,4 +1,4 @@
-package Server_Client_Thread_Prac;
+package Server_Client_Thread;
 
 import java.awt.BorderLayout;
 import java.awt.Font;
@@ -23,10 +23,10 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import Server_Client_Thread.Protocol;
-import view_.LoginView;
+import Server_Client_Thread_Prac.LoginClient2;
+import Server_Client_Thread_Prac.LoginClientThread2;
 
-public class LoginClient2 extends JFrame implements ActionListener {
+public class ChattClient extends JFrame implements ActionListener{
 
 	Socket clientSocket = null;
 	ObjectOutputStream oos = null;
@@ -58,15 +58,15 @@ public class LoginClient2 extends JFrame implements ActionListener {
 
 	Image back = null;
 
-	public LoginClient2() {
-		System.out.println("===run LoginClient Constructor"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+	public ChattClient() {
+		System.out.println("===run ChattClient Constructor"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
 		jtf_msg.addActionListener(this);
 		jbtn_exit.addActionListener(this);
 		jbtn_change.addActionListener(this);
 	}
 
 	public void initDisplay() {
-		System.out.println("===run LoginClient initDisplay"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+		System.out.println("===run ChattClient initDisplay"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
 		// 사용자의 닉네임 받기
 		nickName = JOptionPane.showInputDialog("닉네임을 입력하세요.");
 		this.setLayout(new GridLayout(1, 2));
@@ -82,9 +82,7 @@ public class LoginClient2 extends JFrame implements ActionListener {
 		jp_first_south.setLayout(new BorderLayout());
 		jp_first_south.add("Center", jtf_msg);
 		jp_first_south.add("East", jbtn_send);
-
-		back = getToolkit().getImage("src\\athread\\talk2\\back.jpg");
-
+		
 		jta_display = new JTextArea() {
 			private static final long serialVersionUID = 1L;
 
@@ -112,22 +110,21 @@ public class LoginClient2 extends JFrame implements ActionListener {
 
 	public static void main(String[] args) {
 		Calendar cal = Calendar.getInstance();
-		System.out.println("===run LoginClient main()"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+		System.out.println("===run ChattClient main()"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
 		JFrame.setDefaultLookAndFeelDecorated(true);
-
-		LoginClient2 loginClient = new LoginClient2(); // 메인 스레드 우선원
+		ChattClient chattClient = new ChattClient(); // 메인 스레드 우선원
 
 		// 소켓 생성 --> LoginServer ServerSocket감지 -> 소켓 전달 -> LoginServer run()에서
 		// LoginServerThread 생성
 		// 생성자 호출(this) -> 듣기ㅏ 가능해짐 (oos(홀수), ois(짝수) 순으로 인스턴스화, 소켓객체가 있어야 가능)
-		loginClient.initDisplay();
-		loginClient.init();
+		chattClient.initDisplay();
+		chattClient.init();
 	}
 
 	public void init() {
-		System.out.println("===run LoginClient init()"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+		System.out.println("===run chattClient init()"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
 		try {
-			clientSocket = new Socket("127.0.0.1", 4500); // 서버측 ip주소 작성
+			clientSocket = new Socket("127.0.0.1", 5500); // 서버측 ip주소 작성
 			// LoginServer ServerSocket 감지 ==> Client = server.accept(); , Client Socket에 대한
 			// 정보를 가짐.
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());// 홀수 소켓에서 처리
@@ -137,8 +134,8 @@ public class LoginClient2 extends JFrame implements ActionListener {
 			// LoginServerThread의 생성자가 듣기
 			// 서버에서 말을 한 후 들을 준비를 한다 == 대기를 하고난 후 듣는다 == 프로토콜을 비교해야한다.
 			// 프로토콜 설계하기 == ERD를 그린다. ==데이터 클래스를 설계 == List,Map 단위 테스트
-			LoginClientThread2 loginClientThread = new LoginClientThread2(this);
-			loginClientThread.start();
+			ChattClientThread chattClientThread = new ChattClientThread(this);
+			chattClientThread.start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -176,3 +173,4 @@ public class LoginClient2 extends JFrame implements ActionListener {
 	}
 
 }
+

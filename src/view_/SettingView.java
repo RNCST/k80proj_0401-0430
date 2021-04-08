@@ -22,7 +22,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
 import DAO.DAO;
-import Server_Client_Thread.LoginServer;
 
 /**
  * @author OSH Setting button action 받으면 jp_2 3 4 번과 SettingView panel jp_2 3 4

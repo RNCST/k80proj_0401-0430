@@ -26,17 +26,21 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
-public class MainLobbyView extends JFrame implements ActionListener {
-	private static MainLobbyView mainLobbyView = new MainLobbyView();
+import Server_Client_Thread.ChattClientThread;
+import Server_Client_Thread.Protocol;
+
+public class MainLobbyViewWithClient extends JFrame implements ActionListener {
+	private static MainLobbyViewWithClient mainLobbyView = new MainLobbyViewWithClient();
 
 //	Logger logger = LogManager.getLogger(MainLobbyView.class);
 //======================================================================
 	Socket clientSocket = null;
 	public ObjectOutputStream oos = null;
 	public ObjectInputStream ois = null;
+	public String nickName = null;
+	public String afterName = null;
 //============================================================ ==========
 
-	String nickName = null;
 	JPanel jp_1 = null;
 	JPanel jp_2 = null;
 	JPanel jp_3 = null;
@@ -96,30 +100,15 @@ public class MainLobbyView extends JFrame implements ActionListener {
 	int r8_score = 0;
 	int r9_score = 0;
 
-	public static MainLobbyView getInstance() {
+	public static MainLobbyViewWithClient getInstance() {
 		if (mainLobbyView == null) {
-			mainLobbyView = new MainLobbyView();
+			mainLobbyView = new MainLobbyViewWithClient();
 		}
 		return mainLobbyView;
 	}
 
-//	public void setLoginClient(Socket clientSocket, 
-//							   ObjectOutputStream oos,
-//							   ObjectInputStream  ois,
-//							   String nickName) {
-//		this.clientSocket =clientSocket;
-//		this.oos = oos;
-//		this.ois = ois;
-//		this.nickName = nickName;
-//		logger.info(this.clientSocket);
-//		logger.info(this.oos);
-//		logger.info(this.ois);
-//		logger.info(this.nickName);
-//	}
 
-	public MainLobbyView() {
-//		System.setProperty
-//		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
+	public MainLobbyViewWithClient() {
 	    jp_1       = new 	JPanel     ();
 	    jp_2       = new 	JPanel     ();
 	    jp_3       = new 	JPanel     ();
@@ -181,36 +170,9 @@ public class MainLobbyView extends JFrame implements ActionListener {
 	    
 	    ft1      = new Font("Ariel", Font.BOLD, 13);
 	    
-//	    try {
-//			if(clientSocket == null) {
-//				clientSocket = new Socket("127.0.0.1",5085);
-//	    		oos = new ObjectOutputStream(clientSocket.getOutputStream());
-//	    		ois = new ObjectInputStream (clientSocket.getInputStream());
-//	    		oos.writeObject(Protocol.seperator + Protocol.seperator + nickName);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	    	    
-//	    logger.info("===MainLobby디폴트생성자 생성 성공");
 	    System.out.println("===MainLobby디폴트생성자 생성 성공");
 	}
 
-//	public void init() {
-////===============================================================================================
-//		try {
-//			if(clientSocket == null) {
-//				clientSocket = new Socket("127.0.0.1",5085);
-//				oos = new ObjectOutputStream(clientSocket.getOutputStream());
-//				ois = new ObjectInputStream (clientSocket.getInputStream());
-//				oos.writeObject(Protocol.seperator + Protocol.seperator + nickName);
-//			}
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-////===============================================================================================
-//		
-//	}
 	public void initdisplay() {
 		nickName = JOptionPane.showInputDialog("닉네임을 입력하세요.");
 
@@ -229,7 +191,7 @@ public class MainLobbyView extends JFrame implements ActionListener {
 		jp_2.setLayout(new BorderLayout());
 		jp_2.add("Center", jta_showtext);
 		jta_showtext.setEnabled(false);
-
+		jta_showtext.setLineWrap(true);
 		jta_showtext.setOpaque(false);
 		jp_2.add("South", jp_message);
 		jp_message.setLayout(new BorderLayout());
@@ -254,16 +216,40 @@ public class MainLobbyView extends JFrame implements ActionListener {
 		jp_4.add(jb_unde);
 		jb_unde.setEnabled(false);
 		jp_4.add(jb_setting);
-
+		this.setTitle(nickName+"님의 채팅창");
 		setSize(1120, 400);
 //		pack();
 		setVisible(true);
 		setLocationRelativeTo(null);
 		setResizable(false);
+		
 //		logger.info("===MainLobbyView initdisplay(); 실행성공");
-		System.out.println("===MainLobbyView initdisplay(); 실행성공");
+		System.out.println("===run MainLobbyView initdisplay();");
+	}
+	public static void main(String[] args) {
+		JFrame.setDefaultLookAndFeelDecorated(true);
+		MainLobbyViewWithClient mainLobbyViewWithClient = new MainLobbyViewWithClient();
+		mainLobbyViewWithClient.initdisplay();
+		mainLobbyViewWithClient.init();
 	}
 
+	public void init() {
+		System.out.println("===run MainLobbyView init()");
+		try {
+			clientSocket = new Socket("127.0.0.1", 5500);
+			oos = new ObjectOutputStream(clientSocket.getOutputStream());// 홀수 소켓에서 처리
+			ois = new ObjectInputStream(clientSocket.getInputStream());// 짝수 소켓에서 처리 
+			oos.writeObject(100 + "#" + nickName); // 말하는 순간
+			ChattClientThread chattClientThread = new ChattClientThread(this);
+			chattClientThread.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	
+	
 	public void refreshButton() {
 		jb_r1.setEnabled(true);
 		jb_r2.setEnabled(true);
@@ -276,34 +262,12 @@ public class MainLobbyView extends JFrame implements ActionListener {
 		jb_r9.setEnabled(true);
 	}
 
-//	public void init() {
-////		logger.info("===run LoginClient init()");
-//		System.out.println("===run LoginClient init()");
-////		System.out.println(logger);
-//		try {
-//			clientSocket = new Socket("127.0.0.1", 5085);
-//			oos = new ObjectOutputStream(clientSocket.getOutputStream());
-//			ois = new ObjectInputStream(clientSocket.getInputStream());
-//			oos.writeObject(Protocol.ROOM_IN + Protocol.seperator + nickName);
-//			LoginClientThread loginClientThread = new LoginClientThread(this);
-//			loginClientThread.start();
-//		} catch (Exception e) {
-//			e.printStackTrace();
-//		}
-//	}
 
 	public int setScore(int roomnum) {
 
 		return roomnum;
 	}
 
-	public static void main(String[] args) {
-//		System.setProperty
-//		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
-		MainLobbyView mlv = new MainLobbyView();
-		mlv.initdisplay();
-//		mlv.init();
-	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
@@ -341,20 +305,42 @@ public class MainLobbyView extends JFrame implements ActionListener {
 			jb_r9.setEnabled(false);
 
 		} else if (jtf_gettext == obj) {
-//			logger.info("jtf_gettext action");
 			System.out.println("jtf_gettext action");
-//			try {
-//				System.out.println(oos);
-//				oos.writeObject(Protocol.MESSAGE + Protocol.seperator + nickName + Protocol.seperator + msg);
-//				jtf_gettext.setText("");
-//			} catch (Exception e2) {
-//				e2.printStackTrace();
-//			}
+			try {
+				oos.writeObject(Protocol.MESSAGE 
+						        + Protocol.seperator 
+						        + nickName 
+						        + Protocol.seperator 
+						        + msg);
+				jtf_gettext.setText("");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		} else if (jb_send == obj) {
-//			logger.info("jb_send action");
 			System.out.println("jb_send action");
+			try {
+				oos.writeObject(Protocol.MESSAGE 
+						        + Protocol.seperator 
+						        + nickName 
+						        + Protocol.seperator 
+						        + msg);
+				jtf_gettext.setText("");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		} else if (jb_changeNickname == obj) {
-
+			afterName = JOptionPane.showInputDialog("닉네임을 입력하세요.");
+				try {
+					oos.writeObject(Protocol.CHANGE 
+					        + Protocol.seperator 
+					        + nickName 
+					        + Protocol.seperator 
+					        + afterName
+					        + Protocol.seperator 
+					        + "닉네임변경");
+				} catch (Exception e2) {
+					e2.printStackTrace();
+				}
 		} else if (jb_unde == obj) {
 
 		} else if (jb_setting == obj) {

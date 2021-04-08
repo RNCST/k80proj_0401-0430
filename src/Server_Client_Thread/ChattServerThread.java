@@ -1,4 +1,4 @@
-package Server_Client_Thread_Prac;
+package Server_Client_Thread;
 
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
@@ -6,41 +6,40 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
-import Server_Client_Thread.Protocol;
+import Server_Client_Thread_Prac.LoginServer2;
+import Server_Client_Thread_Prac.LoginServerThread2;
 
-public class LoginServerThread2 extends Thread{
-	public LoginServer2   loginServer = null;
+public class ChattServerThread extends Thread{
+	public ChattServer   chattServer = null;
 	Socket               clientSocket = null;
 	ObjectOutputStream         oos = null;
 	ObjectInputStream          ois = null;
 	String                NickName = null;
 	Calendar                   cal = Calendar.getInstance();
 	
-	public LoginServerThread2(LoginServer2 loginServer) {
-		System.out.println("===run LoginServerThread(LoginServer)"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
-		this.loginServer  = loginServer;
-		this.clientSocket = loginServer.acceptedSocket;
-		System.out.println(loginServer.acceptedSocket);
-		System.out.println(this.clientSocket);
+	public ChattServerThread(ChattServer chattServer) {
+		System.out.println("===run ChatServerThread(chattServer)"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+		this.chattServer  = chattServer;
+		this.clientSocket = chattServer.acceptedSocket;
+		System.out.println("===clientSocket is ="+this.clientSocket);
 		try {
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());
 			ois = new ObjectInputStream(clientSocket.getInputStream());
-			System.out.println(oos + "|"+ ois);
+			System.out.println("===oos = "+oos);
+			System.out.println("===ois = "+ois);
 			String msg = (String) ois.readObject();
-			System.out.println(msg);
-			loginServer.jta_log.append(msg + "\n");
+			System.out.println("===ois.readObject msg = "+msg);
 			StringTokenizer st = new StringTokenizer(msg, "#");
 			st.nextToken();   
 			NickName = st.nextToken();
-			loginServer.jta_log.append(NickName + "님이 입장하였습니다. \n");
-			System.out.println("===LoginServerThread 실행");
-			for (LoginServerThread2 loginServerThread : loginServer.globalList) {
+			System.out.println("===ChattServerThread 실행");
+			for (ChattServerThread chattServerThread : chattServer.globalList) {
 				//이전 입장한 사람들 정보 받기.
 				
-				this.send(100 + "#" + loginServerThread.NickName);
+				this.send(100 + "#" + chattServerThread.NickName);
 			}
 			//현재 서버에 입장한 클라이언트 스레드 추가하기.
-			loginServer.globalList.add(this);
+			chattServer.globalList.add(this);
 			this.showServerLog(msg);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -52,9 +51,9 @@ public class LoginServerThread2 extends Thread{
 	 * @apiNote 현재 입장한 친구들 모두에게 msg 전송하기 
 	 */
 	public void showServerLog(String msg) {
-		System.out.println("===LoginServerThread showServerLog()"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
-		for (LoginServerThread2 loginServerThread : loginServer.globalList) {
-			loginServerThread.send(msg);
+		System.out.println("===chattServerThread showServerLog()");
+		for (ChattServerThread chattServerThread : chattServer.globalList) {
+			chattServerThread.send(msg);
 		}
 	}
 	/**
@@ -62,7 +61,7 @@ public class LoginServerThread2 extends Thread{
 	 * @apiNote 클라이언트에게 말하기 구현
 	 */
 	public void send(String msg) {
-		System.out.println("===run LoginServerThread send()"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+		System.out.println("===run chattServerThread send()");
 		try {
 			oos.writeObject(msg);
 		} catch (Exception e) {
@@ -70,15 +69,14 @@ public class LoginServerThread2 extends Thread{
 		}
 	}
 	public void run() {
-		System.out.println("===run LoginServerThread run()"+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+		System.out.println("===run chattServerThread run()");
 		String msg = null;
 		boolean isStop = false;
 		try {
 			run_start:     // run_start와 세트로 사용하며 통채로 빠져나갈 수 있다.
 			while(!isStop) {
 			msg = (String) ois.readObject();
-			loginServer.jta_log.append(msg + "\n");
-			loginServer.jta_log.setCaretPosition(loginServer.jta_log.getDocument().getLength());
+			System.out.println("===ois.readObject from client= "+msg);
 			StringTokenizer st = null;
 			Calendar cal = Calendar.getInstance();
 			int protocol = 0;
@@ -92,7 +90,7 @@ public class LoginServerThread2 extends Thread{
 			}
 			break;
 			case Protocol.MESSAGE: {
-				System.out.println("LoginServerThread protocol 201 "+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
+				System.out.println("===ChattServerThread protocol 200 "+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
 				String nickName = st.nextToken();
 				String message  = st.nextToken();
 				if(message=="") {
@@ -122,7 +120,7 @@ public class LoginServerThread2 extends Thread{
 			break;
 			case Protocol.ROOM_OUT: {
 				String nickName = st.nextToken();
-				loginServer.globalList.remove(this);
+				chattServer.globalList.remove(this);
 				showServerLog(Protocol.ROOM_OUT 
 						+ Protocol.seperator 
 						+ nickName);
