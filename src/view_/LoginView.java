@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
 import DAO.DAO;
-import Server_Client_Thread.LoginServer;
 import pVO.MemberVO;
 import run_._run;
 

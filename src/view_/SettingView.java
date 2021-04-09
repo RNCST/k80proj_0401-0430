@@ -33,8 +33,8 @@ public class SettingView extends JFrame implements ActionListener {
 	private static SettingView settingView = new SettingView();
 	
 	JPanel jp_1 = null;
-	JPanel jp_2 = null;
-	JPanel jp_3 = null;
+	JPanel jp_2s = null;
+	JPanel jp_3s = null;
 	JPanel jp_4 = null;
 	JLabel jl_title = null;
 	String verticalTitle = null;
@@ -72,17 +72,17 @@ public class SettingView extends JFrame implements ActionListener {
 	}
 	public SettingView() {
 		jp_1 = new JPanel();
-		jp_2 = new JPanel();
-		jp_3 = new JPanel();
+		jp_2s = new JPanel();
+		jp_3s = new JPanel();
 		jp_4 = new JPanel();
 
 		jp_1.setBackground(Color.white);
-		jp_2.setBackground(Color.white);
-		jp_3.setBackground(Color.white);
+		jp_2s.setBackground(Color.white);
+		jp_3s.setBackground(Color.white);
 		jp_4.setBackground(Color.white);
 
-		jspp_1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jp_1, jp_2);
-		jspp_2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jspp_1, jp_3);
+		jspp_1 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jp_1, jp_2s);
+		jspp_2 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jspp_1, jp_3s);
 		jspp_3 = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, jspp_2, jp_4);
 		jspp_1.setDividerSize(0);
 		jspp_2.setDividerSize(0);
@@ -136,17 +136,17 @@ public class SettingView extends JFrame implements ActionListener {
 
 		jp_1.add(jl_title);
 
-		jp_2.setBorder(tb_1);
-		jp_2.setLayout(new FlowLayout());
-		jp_2.add(jb_changePW);
-		jp_2.add(jb_logOut);
-		jp_2.add(jb_signOut);
+		jp_2s.setBorder(tb_1);
+		jp_2s.setLayout(new FlowLayout());
+		jp_2s.add(jb_changePW);
+		jp_2s.add(jb_logOut);
+		jp_2s.add(jb_signOut);
 
-		jp_3.setBorder(tb_1);
-		jp_3.setLayout(new FlowLayout());
-		jp_3.add(jb_changeNickname);
-		jp_3.add(jb_creator);
-		jp_3.add(jb_ver);
+		jp_3s.setBorder(tb_1);
+		jp_3s.setLayout(new FlowLayout());
+		jp_3s.add(jb_changeNickname);
+		jp_3s.add(jb_creator);
+		jp_3s.add(jb_ver);
 
 		jp_4.setBorder(tb_1);
 		jp_4.setLayout(new GridLayout(3,1,0,0));

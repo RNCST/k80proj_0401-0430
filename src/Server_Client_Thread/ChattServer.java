@@ -34,7 +34,7 @@ public class ChattServer implements Runnable {
 
 	/**
 	 *서버 소켓 클라이언트 소켓 연결
-	 *server = 4500 서버소켓
+	 *server = 5500 서버소켓
 	 *socket = server.accept();
 	 *loginServerThread = new LoginServerThread(LoginServer)
 	 *loginServerThread.start() ==> loginServerThread.run();
