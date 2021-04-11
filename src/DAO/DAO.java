@@ -34,7 +34,9 @@ public class DAO {
 			sql = new StringBuffer();
 			sql.append("SELECT * FROM MEMBERLIST WHERE p80_ID ='"+loginID+"'");
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));
+			System.out.println(sql);
+			System.out.println(con);
+			pstmt = con.prepareStatement(sql.toString());
 			rs = pstmt.executeQuery();
 			if( rs.next() == false || (loginID.isEmpty() == true)){
 				loginOk = false;
@@ -43,7 +45,7 @@ public class DAO {
 				sql = null;
 				sql = new StringBuffer();
 			    sql.append("SELECT P80_PW FROM (SELECT * FROM MEMBERLIST WHERE p80_ID ='" + loginID + "')");
-			    rs = pstmt.executeQuery(String.valueOf(sql));
+			    rs = pstmt.executeQuery(sql.toString());
 			    if (rs.next() == true) {
 			    	if (rs.getString(1).equals(loginPW)) {
 			    		loginOk = true;
@@ -104,7 +106,7 @@ public class DAO {
 					+ " (P80_REGNUMBER, P80_EMAIL, P80_ID, P80_PW, P80_QUESTION, P80_ANSWER, p80_SCORE)" 
 					+ " values (?, ?, ?, ?, ?, ?)");
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));			
+			pstmt = con.prepareStatement(sql.toString());			
 			pstmt.setInt   (1, RegNumber);
 			pstmt.setString(2, loginEmail);
 			pstmt.setString(3, loginID);
@@ -139,7 +141,7 @@ public class DAO {
 			sql = new StringBuffer();
 			sql.append("SELECT COUNT(p80_id) AS cnt FROM MEMBERLIST WHERE p80_id=?");
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));
+			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, loginID);
 			rs    = pstmt.executeQuery();
 			rs.next();
@@ -170,7 +172,7 @@ public class DAO {
 			sql = new StringBuffer();
 			sql.append("SELECT MAX(P80_REGNUMBER) FROM MEMBERLIST");
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));
+			pstmt = con.prepareStatement(sql.toString());
 			rs    = pstmt.executeQuery();
 			rs.next();
 			p80_RegNumber = rs.getInt(1);
@@ -197,7 +199,7 @@ public class DAO {
 				+ "AS cnt FROM MEMBERLIST");
 		try {
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));
+			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1 , loginEmail);
 			rs = pstmt.executeQuery();
 			rs.next();
@@ -236,7 +238,7 @@ public class DAO {
 				+ "AS cnt FROM MEMBERLIST");
 		try {
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));
+			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, memberEmail);
 			pstmt.setString(2, memberID);
 			pstmt.setString(3, memberQuestion);
@@ -277,7 +279,7 @@ public class DAO {
 		sql.append("UPDATE MEMBERLIST SET p80_pw =? WHERE P80_ID = ? AND P80_PW = ?");
 		try {
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));
+			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, changedPW);
 			pstmt.setString(2, nowID);
 			pstmt.setString(3, nowPW);
@@ -293,7 +295,7 @@ public class DAO {
 		sql.append("DELETE FROM MEMBERLIST WHERE P80_ID = ? and P80_PW = ?");
 		try {
 			con = dbMgr.getConnection();
-			pstmt = con.prepareStatement(String.valueOf(sql));
+			pstmt = con.prepareStatement(sql.toString());
 			pstmt.setString(1, savedP80_ID);
 			pstmt.setString(2, savedP80_PW);
 			pstmt.executeUpdate();

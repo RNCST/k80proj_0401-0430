@@ -7,7 +7,6 @@ import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
 import DBConnection.DBConnectionMgr;
-import Server_Client_Thread.LoginServer;
 import view_.LoginView;
 
 public class _run {

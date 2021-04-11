@@ -9,7 +9,7 @@ import java.sql.ResultSet;
 public class DBConnectionMgr {
 	private final static String _DRIVER  = "oracle.jdbc.driver.OracleDriver";
 	private final static String _URL     = "jdbc:oracle:thin:@127.0.0.1:1521:orcl11";
-	private final static String _USER    = "ko80project_2";
+	private final static String _USER    = "KO80PROJECT_2";
 	private final static String _PW      = "admin1234";
 	private static DBConnectionMgr dbMgr = null;
 	private               Connection con = null;
@@ -27,8 +27,11 @@ public class DBConnectionMgr {
 	
 	public Connection getConnection() {
 		try {
+			System.out.println("123");
 			Class.forName(_DRIVER);
+			System.out.println("ㅇㅇ");
 			con = DriverManager.getConnection(_URL, _USER, _PW);
+			System.out.println("ㄴㄴ");
 			/* 트랜잭션처리
 			con.setAutoCommit(true);
 			con.setAutoCommit(false);

@@ -11,5 +11,7 @@
 	<classpathentry kind="lib" path="C:/jar/spring-expression-4.3.30.RELEASE.jar"/>
 	<classpathentry kind="lib" path="C:/jar/log4j-api-2.14.1.jar"/>
 	<classpathentry kind="lib" path="C:/jar/log4j-core-2.14.1.jar"/>
+	<classpathentry kind="lib" path="C:/jar/ojdbc6.jar"/>
+	<classpathentry kind="lib" path="C:/jar/ojdbc6-11.2.0.2.0.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
