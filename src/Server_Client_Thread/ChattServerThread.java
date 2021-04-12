@@ -4,6 +4,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import java.util.Calendar;
+import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
 
 import Server_Client_Thread_Prac.LoginServer2;
@@ -92,9 +93,11 @@ public class ChattServerThread extends Thread{
 			case Protocol.MESSAGE: {
 				System.out.println("===ChattServerThread protocol 200 "+cal.get(Calendar.SECOND)+cal.get(Calendar.MILLISECOND));
 				String nickName = st.nextToken();
-				String message  = st.nextToken();
-				if(message=="") {
-					message=" ";
+				String message  = null;
+				try {
+					message  = st.nextToken();
+				} catch (NoSuchElementException e) {
+					message = " ";
 				}
 				showServerLog(Protocol.MESSAGE 
 						+ Protocol.seperator 

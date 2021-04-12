@@ -20,12 +20,9 @@ import javax.swing.JScrollPane;
 import javax.swing.JSplitPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
 import Server_Client_Thread.ChattClientThread;
 import Server_Client_Thread.Protocol;
@@ -91,6 +88,7 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 	JSplitPane jspp_3 = null;
 
 	Font ft1 = null;
+	Font ft2 = null;
 
 	String room1 = null;
 	String room2 = null;
@@ -196,13 +194,16 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 
 		jtf_gettext = new JTextField();
 		jta_showtext = new JTextArea();
+		jta_showtext.setForeground(Color.BLACK);
 		jtf_gettext.addActionListener(this);
 
 		jsp_scroll = new JScrollPane(jta_showtext);
-
+		jsp_scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		jsp_scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		tb_1 = new TitledBorder(new LineBorder(Color.black));
 
 		ft1 = new Font("Ariel", Font.BOLD, 13);
+		ft2 = new Font("돋움", Font.BOLD, 12);
 
 		System.out.println("===MainLobby디폴트생성자 생성 성공");
 	}
@@ -223,10 +224,14 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 
 		jp_2m.setBorder(tb_1);
 		jp_2m.setLayout(new BorderLayout());
+		jp_2m.add(jsp_scroll);
 		jp_2m.add("Center", jta_showtext);
+		jp_2m.add(jsp_scroll);
 		jta_showtext.setEnabled(false);
 		jta_showtext.setLineWrap(true);
 		jta_showtext.setOpaque(false);
+		jta_showtext.setFont(ft2);
+		jta_showtext.setForeground(Color.black);
 		jp_2m.add("South", jp_message);
 		jp_message.setLayout(new BorderLayout());
 		jp_message.add("Center", jtf_gettext);
@@ -271,7 +276,7 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 	public void init() {
 		System.out.println("===run MainLobbyView init()");
 		try {
-			clientSocket = new Socket("127.0.0.1", 5500);
+			clientSocket = new Socket("127.0.0.1", 5700);
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());// 홀수 소켓에서 처리
 			ois = new ObjectInputStream(clientSocket.getInputStream());// 짝수 소켓에서 처리
 			oos.writeObject(100 + "#" + nickName); // 말하는 순간
@@ -321,9 +326,12 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 		jp_2m.setBorder(tb_1);
 		jp_2m.setLayout(new BorderLayout());
 		jp_2m.add("Center", jta_showtext);
+		jp_2m.add(jsp_scroll);
 		jta_showtext.setEnabled(false);
 		jta_showtext.setLineWrap(true);
 		jta_showtext.setOpaque(false);
+		jta_showtext.setFont(ft2);
+		jta_showtext.setForeground(Color.black);
 		jp_2m.add("South", jp_message);
 		jp_message.setLayout(new BorderLayout());
 		jp_message.add("Center", jtf_gettext);

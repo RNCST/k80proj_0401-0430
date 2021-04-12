@@ -49,7 +49,7 @@ public class ChattServer implements Runnable {
 		String totalSecond= second+" "+milliSecond;
 		boolean isStop    = false;
 		try {
-			serverSocket = new ServerSocket(5500);
+			serverSocket = new ServerSocket(5700);
 			System.out.println("===ChattServer Start........\n");
 			while(!isStop) {
 				acceptedSocket = serverSocket.accept();
