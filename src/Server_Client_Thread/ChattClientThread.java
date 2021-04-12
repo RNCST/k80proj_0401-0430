@@ -40,7 +40,7 @@ public class ChattClientThread extends Thread{
 				switch(protocol) {
 				case Protocol.ROOM_IN:{
 					String nickName = st.nextToken();
-					mainLobbyViewWithClient.jta_showtext.append(nickName+"님이 입장하였습니다.\n");
+					mainLobbyViewWithClient.jta_showtext1.append(nickName+"님이 입장하였습니다.\n");
 					Vector<String> v = new Vector<>();
 					v.add(nickName);
 //					mainLobbyViewWithClient.dtm.addRow(v);
@@ -52,9 +52,9 @@ public class ChattClientThread extends Thread{
 					String nickName = st.nextToken();
 					String message  = st.nextToken();
 					
-					mainLobbyViewWithClient.jta_showtext.append("["+nickName+"]"+message+"\n");
-					mainLobbyViewWithClient.jta_showtext.setCaretPosition
-					(mainLobbyViewWithClient.jta_showtext.getDocument().getLength());
+					mainLobbyViewWithClient.jta_showtext1.append("["+nickName+"]"+message+"\n");
+					mainLobbyViewWithClient.jta_showtext1.setCaretPosition
+					(mainLobbyViewWithClient.jta_showtext1.getDocument().getLength());
 				}break;
 				
 				case Protocol.CHANGE:{
@@ -71,7 +71,7 @@ public class ChattClientThread extends Thread{
 //					}
 					
 					if(nickName.equals(mainLobbyViewWithClient.nickName)) {
-						mainLobbyViewWithClient.jta_showtext.append(nickName+"님이 "+afterName+"으로 닉네임을 변경했습니다\n");
+						mainLobbyViewWithClient.jta_showtext1.append(nickName+"님이 "+afterName+"으로 닉네임을 변경했습니다\n");
 						mainLobbyViewWithClient.setTitle(afterName+"님의 대화창");
 						mainLobbyViewWithClient.nickName = afterName;
 					}
@@ -79,9 +79,9 @@ public class ChattClientThread extends Thread{
 				}break;
 				case Protocol.ROOM_OUT:{
 					String nickName = st.nextToken();
-					mainLobbyViewWithClient.jta_showtext.append(nickName+"님이 퇴장 하였습니다.\n");
-					mainLobbyViewWithClient.jta_showtext.setCaretPosition
-					(mainLobbyViewWithClient.jta_showtext.getDocument().getLength());
+					mainLobbyViewWithClient.jta_showtext1.append(nickName+"님이 퇴장 하였습니다.\n");
+					mainLobbyViewWithClient.jta_showtext1.setCaretPosition
+					(mainLobbyViewWithClient.jta_showtext1.getDocument().getLength());
 					for(int i=0; i<chattClient.dtm.getRowCount();i++) {
 						String n = (String)chattClient.dtm.getValueAt(i, 0);
 						if(n.equals(nickName)) {

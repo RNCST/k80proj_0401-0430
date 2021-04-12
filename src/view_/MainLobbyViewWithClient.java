@@ -10,6 +10,7 @@ import java.awt.event.ActionListener;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import java.util.Vector;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -38,7 +39,7 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 	public String nickName = null;
 	public String afterName = null;
 //============================================================ ==========
-
+	
 	JPanel jp_1 = null;
 	JPanel jp_2m = null;
 	JPanel jp_2s = null;
@@ -74,9 +75,28 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 	JButton jb_ver = null;
 
 	public JTextField jtf_gettext = null;
-	public JTextArea jta_showtext = null;
-
-	JScrollPane jsp_scroll = null;
+	public JTextArea jta_showtext1 = null;
+	public JTextArea jta_showtext2 = null;
+	public JTextArea jta_showtext3 = null;
+	public JTextArea jta_showtext4 = null;
+	public JTextArea jta_showtext5 = null;
+	public JTextArea jta_showtext6 = null;
+	public JTextArea jta_showtext7 = null;
+	public JTextArea jta_showtext8 = null;
+	public JTextArea jta_showtext9 = null;
+	
+	Vector<JTextArea> vjta        = new Vector<>();
+	Vector<JScrollPane> vjsp      = new Vector<>(); 
+	
+	JScrollPane jsp_scroll1 = null;
+	JScrollPane jsp_scroll2 = null;
+	JScrollPane jsp_scroll3 = null;
+	JScrollPane jsp_scroll4 = null;
+	JScrollPane jsp_scroll5 = null;
+	JScrollPane jsp_scroll6 = null;
+	JScrollPane jsp_scroll7 = null;
+	JScrollPane jsp_scroll8 = null;
+	JScrollPane jsp_scroll9 = null;
 
 	TitledBorder tb_1 = null;
 	TitledBorder tb_2 = null;
@@ -90,26 +110,37 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 	Font ft1 = null;
 	Font ft2 = null;
 
-	String room1 = null;
-	String room2 = null;
-	String room3 = null;
-	String room4 = null;
-	String room5 = null;
-	String room6 = null;
-	String room7 = null;
-	String room8 = null;
-	String room9 = null;
+//======================================================================
+	String r1Score = null;
+	String room1 = "RoomScore"+r1Score;
+	String r2Score = null;
+	String room2 = "RoomScore"+r2Score;
+	String r3Score = null;
+	String room3 = "RoomScore"+r3Score;
+	String r4Score = null;
+	String room4 = "RoomScore"+r4Score;
+	String r5Score = null;
+	String room5 = "RoomScore"+r5Score;
+	String r6Score = null;
+	String room6 = "RoomScore"+r6Score;
+	String r7Score = null;
+	String room7 = "RoomScore"+r7Score;
+	String r8Score = null;
+	String room8 = "RoomScore"+r8Score;
+	String r9Score = null;
+	String room9 = "RoomScore"+r9Score;
+	
+	int r1_score = 10;
+	int r2_score = 20;
+	int r3_score = 30;
+	int r4_score = 40;
+	int r5_score = 50;
+	int r6_score = 60;
+	int r7_score = 70;
+	int r8_score = 80;
+	int r9_score = 90;
 
-	int r1_score = 0;
-	int r2_score = 0;
-	int r3_score = 0;
-	int r4_score = 0;
-	int r5_score = 0;
-	int r6_score = 0;
-	int r7_score = 0;
-	int r8_score = 0;
-	int r9_score = 0;
-
+//======================================================================	
 	public static MainLobbyViewWithClient getInstance() {
 		if (mainLobbyView == null) {
 			mainLobbyView = new MainLobbyViewWithClient();
@@ -193,13 +224,55 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 		jb_ver.addActionListener(this);
 
 		jtf_gettext = new JTextField();
-		jta_showtext = new JTextArea();
-		jta_showtext.setForeground(Color.BLACK);
+		jta_showtext1 = new JTextArea();
+		jta_showtext2 = new JTextArea();
+		jta_showtext3 = new JTextArea();
+		jta_showtext4 = new JTextArea();
+		jta_showtext5 = new JTextArea();
+		jta_showtext6 = new JTextArea();
+		jta_showtext7 = new JTextArea();
+		jta_showtext8 = new JTextArea();
+		jta_showtext9 = new JTextArea();
+		
+		jta_showtext1.setForeground(Color.BLACK);
+		jta_showtext2.setForeground(Color.BLACK);
+		jta_showtext3.setForeground(Color.BLACK);
+		jta_showtext4.setForeground(Color.BLACK);
+		jta_showtext5.setForeground(Color.BLACK);
+		jta_showtext6.setForeground(Color.BLACK);
+		jta_showtext7.setForeground(Color.BLACK);
+		jta_showtext8.setForeground(Color.BLACK);
+		jta_showtext9.setForeground(Color.BLACK);
+		
+		vjta.add(jta_showtext1);
+		vjta.add(jta_showtext2);
+		vjta.add(jta_showtext3);
+		vjta.add(jta_showtext4);
+		vjta.add(jta_showtext5);
+		vjta.add(jta_showtext6);
+		vjta.add(jta_showtext7);
+		vjta.add(jta_showtext8);
+		vjta.add(jta_showtext9);
+		
+		vjsp.add(jsp_scroll1);
+		vjsp.add(jsp_scroll2);
+		vjsp.add(jsp_scroll3);
+		vjsp.add(jsp_scroll4);
+		vjsp.add(jsp_scroll5);
+		vjsp.add(jsp_scroll6);
+		vjsp.add(jsp_scroll7);
+		vjsp.add(jsp_scroll8);
+		vjsp.add(jsp_scroll9);
+		
 		jtf_gettext.addActionListener(this);
-
-		jsp_scroll = new JScrollPane(jta_showtext);
-		jsp_scroll.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
-		jsp_scroll.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
+		
+		for(int i = 0 ; i < 9 ; i++) {
+			jsp_scroll1 = new JScrollPane(vjta.elementAt(i));
+		}
+		
+//		jsp_scroll = new JScrollPane(jta_showtext1);
+		jsp_scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+		jsp_scroll1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		tb_1 = new TitledBorder(new LineBorder(Color.black));
 
 		ft1 = new Font("Ariel", Font.BOLD, 13);
@@ -224,14 +297,22 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 
 		jp_2m.setBorder(tb_1);
 		jp_2m.setLayout(new BorderLayout());
-		jp_2m.add(jsp_scroll);
-		jp_2m.add("Center", jta_showtext);
-		jp_2m.add(jsp_scroll);
-		jta_showtext.setEnabled(false);
-		jta_showtext.setLineWrap(true);
-		jta_showtext.setOpaque(false);
-		jta_showtext.setFont(ft2);
-		jta_showtext.setForeground(Color.black);
+//==========점수따라서 jsp_scroll1~9 센터에 붙이게
+		jp_2m.add("Center", jsp_scroll1);
+		
+		for(int i = 0 ; i<9 ; i++) {
+			vjta.elementAt(i).setEnabled(false);
+			vjta.elementAt(i).setLineWrap(true);
+			vjta.elementAt(i).setOpaque(false);
+			vjta.elementAt(i).setFont(ft2);
+			vjta.elementAt(i).setForeground(Color.black);
+		}
+		
+//		jta_showtext1.setEnabled(false);
+//		jta_showtext1.setLineWrap(true);
+//		jta_showtext1.setOpaque(false);
+//		jta_showtext1.setFont(ft2);
+//		jta_showtext1.setForeground(Color.black);
 		jp_2m.add("South", jp_message);
 		jp_message.setLayout(new BorderLayout());
 		jp_message.add("Center", jtf_gettext);
@@ -325,13 +406,14 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 
 		jp_2m.setBorder(tb_1);
 		jp_2m.setLayout(new BorderLayout());
-		jp_2m.add("Center", jta_showtext);
-		jp_2m.add(jsp_scroll);
-		jta_showtext.setEnabled(false);
-		jta_showtext.setLineWrap(true);
-		jta_showtext.setOpaque(false);
-		jta_showtext.setFont(ft2);
-		jta_showtext.setForeground(Color.black);
+		jp_2m.add("Center", jsp_scroll1);
+		
+		jta_showtext1.setEnabled(false);
+		jta_showtext1.setLineWrap(true);
+		jta_showtext1.setOpaque(false);
+		jta_showtext1.setFont(ft2);
+		jta_showtext1.setForeground(Color.black);
+		
 		jp_2m.add("South", jp_message);
 		jp_message.setLayout(new BorderLayout());
 		jp_message.add("Center", jtf_gettext);
@@ -490,7 +572,6 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 		} else if (jb_unde == obj) {
 
 		} else if (jb_setting == obj) {
-//			settingViewInstance.initdisplay();
 			setSettingView();
 
 		} else if (jb_goback == obj) {
