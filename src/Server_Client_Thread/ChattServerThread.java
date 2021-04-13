@@ -87,7 +87,6 @@ public class ChattServerThread extends Thread{
 			}
 			switch (protocol) {
 			case 201: {
-				
 			}
 			break;
 			case Protocol.MESSAGE: {

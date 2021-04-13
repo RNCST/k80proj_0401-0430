@@ -1,16 +1,21 @@
 package run_;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
 import DBConnection.DBConnectionMgr;
+import Server_Client_Thread.ChattServer;
 import view_.LoginView;
 
-public class _run {
-//	Logger logger = LogManager.getLogger(_run.class);
+public class _run{
+/**
+	 * 
+	 */
+	//	Logger logger = LogManager.getLogger(_run.class);
 	/**
 	 * run() ==> Server, Client, LoginView
 	 */
@@ -39,10 +44,12 @@ public class _run {
 	
 	
 	public static void main(String[] args){
+		ChattServer chattServer = new ChattServer();
+		Thread thread = new Thread(chattServer);
+		thread.start();
 //		System.setProperty
 //		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 //		Logger logger = LogManager.getLogger(_run.class);
-		System.out.println("===시작 성공 ");
 		System.out.println("===시작 성공 ");
 //		LoginServer loginServer = new LoginServer();
 //		Thread thread = new Thread(loginServer);

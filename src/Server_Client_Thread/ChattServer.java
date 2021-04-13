@@ -50,10 +50,10 @@ public class ChattServer implements Runnable {
 		boolean isStop    = false;
 		try {
 			serverSocket = new ServerSocket(5700);
-			System.out.println("===ChattServer Start........\n");
+			System.out.println("===ChattServer Start........");
 			while(!isStop) {
 				acceptedSocket = serverSocket.accept();
-				System.out.println("===Client info:"+acceptedSocket+"\n");
+				System.out.println("===Client info:"+acceptedSocket+"");
 				System.out.println("===TotalSecond"+totalSecond);
 				chattServerThread = new ChattServerThread(this);
 				chattServerThread.start();

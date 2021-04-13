@@ -7,6 +7,7 @@ import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -180,6 +181,7 @@ public class SettingView extends JFrame implements ActionListener {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		MainLobbyView mainLobbyViewInstance = MainLobbyView.getInstance();
+		MainLobbyViewWithClient mainLobbyViewWithClient = MainLobbyViewWithClient.getInstance();
 		LoginView loginViewInstance = LoginView.getInstance();
 		SignOutView signOutViewInstance = SignOutView.getInstacne();
 		ChangePWView changePWViewInstance = ChangePWView.getInstance();
@@ -189,8 +191,17 @@ public class SettingView extends JFrame implements ActionListener {
 
 		} else if (jb_logOut == obj) {
 			dispose();
-			mainLobbyViewInstance.dispose();
+//			mainLobbyViewInstance.dispose();
+			mainLobbyViewWithClient.dispose();
+			try {
+				mainLobbyViewWithClient.ois.close();
+				mainLobbyViewWithClient.oos.close();
+				mainLobbyViewWithClient.clientSocket.close();
+			} catch (IOException e1) {
+				e1.printStackTrace();
+			}
 			loginViewInstance.initdisplay();
+			
 			
 		} else if (jb_signOut == obj) {
 			signOutViewInstance.initDisplay();

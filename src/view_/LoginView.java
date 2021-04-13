@@ -6,6 +6,7 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.Serializable;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -29,7 +30,14 @@ import run_._run;
  * LoginView
  * 
  */
-public class LoginView extends JFrame implements ActionListener  {
+public class LoginView extends JFrame implements ActionListener, Serializable  {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+
+
+
 	private static LoginView loginView = new LoginView() ;
 //	Logger logger = LogManager.getLogger(LoginView.class);
 	
@@ -197,6 +205,7 @@ public String getGetID() {
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		MainLobbyView mainLobbyViewInstance = MainLobbyView.getInstance();
+		MainLobbyViewWithClient mainLobbyViewWithClient = MainLobbyViewWithClient.getInstance();
 		SignUpView signUpViewInstance = SignUpView.getInstance();
 		SearchView searchViewInstacne = SearchView.getInstance();
 		
@@ -212,7 +221,12 @@ public String getGetID() {
 //				logger.info("===loginServer Thread.start(run) ");
 				setGetID(jtf_id.getText());
 				setGetPW(jtf_pw.getText());
-				mainLobbyViewInstance.initdisplay();
+//				mainLobbyViewInstance.initdisplay();
+				mainLobbyViewWithClient.initdisplay();
+				mainLobbyViewWithClient.init();
+				System.out.println(mainLobbyViewWithClient.clientSocket);
+				System.out.println(mainLobbyViewWithClient.oos);
+				System.out.println(mainLobbyViewWithClient.ois);
 				jtf_id.setText("");
 				jtf_pw.setText("");
 			this.dispose();
