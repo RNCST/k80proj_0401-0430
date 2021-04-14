@@ -212,16 +212,12 @@ public String getGetID() {
 		Object obj = e.getSource();
 		if(jb_login == obj){
 //========== DB 확인 =====================================//	
-//			logger.info(jtf_id.getText());
 			System.out.println(jtf_id.getText());
-//			logger.info(jtf_pw.getText());
 			System.out.println(jtf_pw.getText());
 			if(dblogic.runLogin(jtf_id.getText(),jtf_pw.getText())==true) {
 				System.out.println("===loginServer Thread.start(run) ");
-//				logger.info("===loginServer Thread.start(run) ");
 				setGetID(jtf_id.getText());
 				setGetPW(jtf_pw.getText());
-//				mainLobbyViewInstance.initdisplay();
 				mainLobbyViewWithClient.initdisplay();
 				mainLobbyViewWithClient.init();
 				System.out.println(mainLobbyViewWithClient.clientSocket);
