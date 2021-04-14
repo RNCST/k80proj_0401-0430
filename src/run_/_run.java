@@ -1,19 +1,37 @@
 package run_;
 
-import java.io.IOException;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 
 import DBConnection.DBConnectionMgr;
+import Server_Client_Thread.ClientThread;
+import Server_Client_Thread.Server;
 import view_.LoginView;
 
 public class _run {
-//	Logger logger = LogManager.getLogger(_run.class);
 	/**
 	 * run() ==> Server, Client, LoginView
 	 */
+	
+	Socket clientSocket = null;
+	ObjectOutputStream oos = null;
+	ObjectInputStream ois = null;
+	String nickName = null;
+	
+	public void init() {
+		System.out.println("===_run.java (client)init() 실행");
+		try {
+			clientSocket = new Socket("127.0.0.1", 5800);
+			oos = new ObjectOutputStream(clientSocket.getOutputStream());
+			ois = new ObjectInputStream(clientSocket.getInputStream());
+			oos.writeObject(100 + "#" + nickName);
+			ClientThread clientThread = new ClientThread(this);
+			clientThread.start();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
 	private static _run _run = new _run();
 	
 	public static synchronized _run getInstance() {
@@ -30,7 +48,6 @@ public class _run {
 	
 	public _run(){
 	loginView 			= LoginView.getInstance();
-//	logger.info("===_run디폴트생성자 생성 성공");
 	System.out.println("===_run디폴트생성자 생성 성공");
 		
 	}
@@ -39,22 +56,12 @@ public class _run {
 	
 	
 	public static void main(String[] args){
-//		System.setProperty
-//		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
-//		Logger logger = LogManager.getLogger(_run.class);
+		Server server = new Server();
 		System.out.println("===시작 성공 ");
-		System.out.println("===시작 성공 ");
-//		LoginServer loginServer = new LoginServer();
-//		Thread thread = new Thread(loginServer);
-//		thread.start();
 		_run.loginView.initdisplay();
-		
-			/*
-			 * Server Call method
-			 * Cliend call method
-			 * DBlogic call method
-			 * LoginView Call method
-			 */
+		server.run();
+		_run.init();
+		_run.loginView.getInfo(_run.clientSocket, _run.oos, _run.ois);
 		
    
 	}

@@ -1,4 +1,4 @@
-package Server_Client_Thread;
+package Server_Client_Thread_old;
 
 public class Protocol {
 	//프로토콜의 경우 어플에서 일괄적으로 적용하고 변경될 수 있도록 설계하는 것이 좋을 것이다.

@@ -6,6 +6,9 @@ import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.net.Socket;
 import java.net.URL;
 
 import javax.swing.ImageIcon;
@@ -31,8 +34,10 @@ import run_._run;
  */
 public class LoginView extends JFrame implements ActionListener  {
 	private static LoginView loginView = new LoginView() ;
-//	Logger logger = LogManager.getLogger(LoginView.class);
 	
+	Socket clientSocket = null;
+	ObjectOutputStream oos = null;
+	ObjectInputStream ois = null;
 	
 	
 	JButton        jb_login   = null;
@@ -60,6 +65,15 @@ public class LoginView extends JFrame implements ActionListener  {
 	private String       getID   = "123";
 	private String       getPW	= "123";
 	MemberVO[]     memberList   =null;
+	
+	public void getInfo(Socket s , ObjectOutputStream oos, ObjectInputStream ois) {
+		this.clientSocket = s; 
+		this.oos = oos;
+		this.ois = ois;
+		System.out.println(this.clientSocket);
+		System.out.println(this.oos);
+		System.out.println(this.ois);
+	}
 
 public String getGetID() {
 		return getID;
@@ -77,9 +91,7 @@ public String getGetID() {
 		this.getPW = getPW;
 	}
 
-	//	LoginVO         LVO          = null;
 	DAO         dblogic      = new DAO();
-//	prjDAO          pDAO         = null;		
 	
 	public static synchronized LoginView getInstance() {
 		if(loginView == null) {
@@ -90,11 +102,6 @@ public String getGetID() {
 	}
 	
 	public LoginView() {
-		/*
-		 * DB 연동을 여기에서 할지 RUN에서할지
-		 */
-//		System.setProperty
-//		(XmlConfigurationFactory.CONFIGURATION_FILE_PROPERTY, "C:\\KOSMO80\\workspace\\java210208\\log4j.xml");
 		jb_login  = new JButton("LOGIN");
 		jb_cancel = new JButton("CANCEL");
 		jb_signUp = new JButton("회원가입");
@@ -108,10 +115,6 @@ public String getGetID() {
 		jtf_id = new JTextField();
 		jtf_pw = new JPasswordField();
 		
-//		File f = new File("coding_cat.gif");
-//		URL img = f.toURL();
-//		icon = new ImageIcon(img);
-//		icon.setImage(icon.getImage().getScaledInstance(300, 300, Image.SCALE_DEFAULT));
 
 		jl_gif = new JLabel(icon);
 		jl_id = new JLabel("ID :");
@@ -119,30 +122,18 @@ public String getGetID() {
 		jl_version = new JLabel(_run.version);
 		
 
-//		logger.info("===LoginView 디폴트생성자 생성 성공");
 		System.out.println("===LoginView 디폴트생성자 생성 성공");
 		
 
 		font = new Font("휴먼모음T", Font.PLAIN, 11);
 		
 		
-		
-//=======================================================================================================================
-//	    addWindowListener
-//	    (new WindowAdapter() {   // 내부 무명클래스로서 
-//
-//			@Override
-//
-//			public void windowClosing(WindowEvent e) {  // 이벤트프로그램
-//
-//				System.exit(0);
-//
-//			}
-//	    });
-//=======================================================================================================================
-	    
 	}
-	
+	public void setClientData(Socket s , ObjectOutputStream oos , ObjectInputStream ois) {
+		this.clientSocket = s;
+		this.oos = oos;
+		this.ois = ois;
+	}
 
 	public void initdisplay() {
 		
@@ -174,18 +165,15 @@ public String getGetID() {
 		jb_login.setBounds(170, 265, 80, 60);
 		jb_login.setFont(font);
 		
-//		jb_cancel.setBounds(200, 400, 70, 70);
 		jb_signUp.setBounds(20, 380, 90, 30);
 		jb_signUp.setFont(font);
 		jb_search.setBounds(140, 380, 90, 30);
 		jb_search.setFont(font);
-		
 //		jl_gif.setBounds(250, 0, 300, 300);
 
 		setSize(270, 500);
 		setLocationRelativeTo(null); 
 		setVisible(true);
-//		logger.info("===LoginView initdisplay(); 실행성공");
 		System.out.println("===LoginView initdisplay(); 실행성공");
 	}
 
@@ -202,14 +190,10 @@ public String getGetID() {
 		
 		Object obj = e.getSource();
 		if(jb_login == obj){
-//========== DB 확인 =====================================//	
-//			logger.info(jtf_id.getText());
 			System.out.println(jtf_id.getText());
-//			logger.info(jtf_pw.getText());
 			System.out.println(jtf_pw.getText());
 			if(dblogic.runLogin(jtf_id.getText(),jtf_pw.getText())==true) {
 				System.out.println("===loginServer Thread.start(run) ");
-//				logger.info("===loginServer Thread.start(run) ");
 				setGetID(jtf_id.getText());
 				setGetPW(jtf_pw.getText());
 				mainLobbyViewInstance.initdisplay();
@@ -225,8 +209,6 @@ public String getGetID() {
 			}
 			
 		
-//========== DB 확인 =====================================//	
-			
 		}else if(jb_cancel == obj){
 			this.dispose();
 		}else if(jb_signUp == obj){
