@@ -190,8 +190,9 @@ public class SettingView extends JFrame implements ActionListener {
 			changePWViewInstance.initDisplay();
 
 		} else if (jb_logOut == obj) {
-			dispose();
 //			mainLobbyViewInstance.dispose();
+			mainLobbyViewWithClient.getContentPane().removeAll();
+			mainLobbyViewWithClient.setMainLobbyView();
 			mainLobbyViewWithClient.dispose();
 			try {
 				mainLobbyViewWithClient.ois.close();
@@ -200,6 +201,7 @@ public class SettingView extends JFrame implements ActionListener {
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+			dispose();
 			loginViewInstance.initdisplay();
 			
 			

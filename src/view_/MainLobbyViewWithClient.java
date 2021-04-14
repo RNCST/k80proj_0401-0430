@@ -267,10 +267,12 @@ public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 		jtf_gettext.addActionListener(this);
 		
 		for(int i = 0 ; i < 9 ; i++) {
+			vjsp.elementAt(i) = new JScrollPane(vjta.elementAt(i));
+			vjsp.get(i) = new JScrollPane(vjta.elementAt(i));
 			jsp_scroll1 = new JScrollPane(vjta.elementAt(i));
 		}
 		
-//		jsp_scroll = new JScrollPane(jta_showtext1);
+		jsp_scroll1 = new JScrollPane(jta_showtext1);
 		jsp_scroll1.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
 		jsp_scroll1.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED);
 		tb_1 = new TitledBorder(new LineBorder(Color.black));
