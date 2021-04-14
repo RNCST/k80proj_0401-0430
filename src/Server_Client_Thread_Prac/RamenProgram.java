@@ -5,7 +5,7 @@ public class RamenProgram {
 	// run Debug
 	public static void main(String[] args) {
 		try {
-			RamenCook ramenCook = new RamenCook(Integer.parseInt(args[0]));
+			RamenCook ramenCook = new RamenCook(Integer.parseInt(args));
 			new Thread(ramenCook, "personA").start();
 			new Thread(ramenCook, "personB").start();
 			new Thread(ramenCook, "personC").start();

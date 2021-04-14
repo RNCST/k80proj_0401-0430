@@ -63,7 +63,6 @@ public class _run {
 		_run.init();
 		_run.loginView.getInfo(_run.clientSocket, _run.oos, _run.ois);
 		
-   
 	}
 
 }
