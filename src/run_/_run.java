@@ -8,6 +8,7 @@ import DBConnection.DBConnectionMgr;
 import Server_Client_Thread.ClientThread;
 import Server_Client_Thread.Server;
 import view_.LoginView;
+import view_.MainLobbyView;
 
 public class _run {
 	/**
@@ -42,13 +43,19 @@ public class _run {
 	}
 	
 	public LoginView loginView = null;
+	public MainLobbyView mainLobbyView = null;
 		
 	public DBConnectionMgr dbMgr = DBConnectionMgr.getInstance(); 
 	public static String version ="POPCHAT VER 0.0 입니다.";
 	
 	public _run(){
 	loginView 			= LoginView.getInstance();
+	mainLobbyView       = MainLobbyView.getInstance();
 	System.out.println("===_run디폴트생성자 생성 성공");
+		this.loginView.initdisplay();
+		this.init();
+		this.loginView.getInfo(this.clientSocket, this.oos, this.ois);
+		this.mainLobbyView.getInfo(this.clientSocket, this.oos, this.ois);
 		
 	}
 	
@@ -57,12 +64,15 @@ public class _run {
 	
 	public static void main(String[] args){
 		Server server = new Server();
+		Thread thread = new Thread(server);
 		System.out.println("===시작 성공 ");
-		_run.loginView.initdisplay();
-		server.run();
-		_run.init();
-		_run.loginView.getInfo(_run.clientSocket, _run.oos, _run.ois);
-		
+		try {
+			Thread.sleep(3000);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+		new _run();
+		thread.start();
 	}
 
 }

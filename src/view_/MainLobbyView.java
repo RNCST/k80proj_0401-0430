@@ -26,6 +26,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.apache.logging.log4j.core.config.xml.XmlConfigurationFactory;
 
+import Server_Client_Thread.ProjectProtocol;
+import Server_Client_Thread_old.Protocol;
+
 public class MainLobbyView extends JFrame implements ActionListener {
 	private static MainLobbyView mainLobbyView = new MainLobbyView();
 
@@ -264,6 +267,16 @@ public class MainLobbyView extends JFrame implements ActionListener {
 		System.out.println("===MainLobbyView initdisplay(); 실행성공");
 	}
 
+	public void getInfo(Socket s, ObjectOutputStream oos, ObjectInputStream ois) {
+		this.clientSocket = s;
+		this.oos = oos;
+		this.ois = ois;
+		System.out.println(this.clientSocket);
+		System.out.println(this.oos);
+		System.out.println(this.ois);
+	}
+	
+	
 	public void refreshButton() {
 		jb_r1.setEnabled(true);
 		jb_r2.setEnabled(true);
@@ -341,18 +354,21 @@ public class MainLobbyView extends JFrame implements ActionListener {
 			jb_r9.setEnabled(false);
 
 		} else if (jtf_gettext == obj) {
-//			logger.info("jtf_gettext action");
 			System.out.println("jtf_gettext action");
-//			try {
-//				System.out.println(oos);
-//				oos.writeObject(Protocol.MESSAGE + Protocol.seperator + nickName + Protocol.seperator + msg);
-//				jtf_gettext.setText("");
-//			} catch (Exception e2) {
-//				e2.printStackTrace();
-//			}
+			try {
+				oos.writeObject(ProjectProtocol.MESSAGE + ProjectProtocol.seperator + nickName + ProjectProtocol.seperator + msg);
+				jtf_gettext.setText("");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		} else if (jb_send == obj) {
-//			logger.info("jb_send action");
 			System.out.println("jb_send action");
+			try {
+				oos.writeObject(ProjectProtocol.MESSAGE + ProjectProtocol.seperator + nickName + ProjectProtocol.seperator + msg);
+				jtf_gettext.setText("");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		} else if (jb_changeNickname == obj) {
 
 		} else if (jb_unde == obj) {

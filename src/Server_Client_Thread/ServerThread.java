@@ -43,7 +43,7 @@ public class ServerThread extends Thread {
 	}
 
 	public void speak(String msg) {
-		System.out.println("===ServerThread.java Speak(msg)");
+		System.out.println("===ServerThread.java Speak(msg) 실행");
 		for (ServerThread serverThread : server.RunningThreadList) {
 			serverThread.sendMessage(msg);
 		}
