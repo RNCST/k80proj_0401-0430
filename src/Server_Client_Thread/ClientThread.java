@@ -5,7 +5,7 @@ import java.util.StringTokenizer;
 import javax.swing.JOptionPane;
 
 import DAO.DAO;
-import run_._run;
+import run_.clientRun;
 import view_.LoginView;
 import view_.MainLobbyView;
 import view_.MainLobbyViewWithClient;
@@ -15,7 +15,7 @@ import view_.SignOutView;
 import view_.SignUpView;
 
 public class ClientThread extends Thread {
-	_run client = null;
+	clientRun client = null;
 	LoginView loginView = null;
 	MainLobbyViewWithClient mainLobbyViewWithClient = null;
 	SearchView searchView = null;
@@ -23,7 +23,7 @@ public class ClientThread extends Thread {
 	SignOutView signOutView = null;
 	SettingView settingView = null;
 
-	public ClientThread(_run client) {
+	public ClientThread(clientRun client) {
 		System.out.println("===ClientThread.java Constructor(client)");
 		this.client = client;
 	}

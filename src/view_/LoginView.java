@@ -27,7 +27,7 @@ import DAO.DAO;
 import Server_Client_Thread.ProjectProtocol;
 import Server_Client_Thread_old.Protocol;
 import pVO.MemberVO;
-import run_._run;
+import run_.clientRun;
 
 /**
  * @author OSH LoginView
@@ -129,7 +129,7 @@ public class LoginView extends JFrame implements ActionListener {
 		jl_gif = new JLabel(icon);
 		jl_id = new JLabel("ID :");
 		jl_pw = new JLabel("PW :");
-		jl_version = new JLabel(_run.version);
+		jl_version = new JLabel(clientRun.version);
 
 		System.out.println("===LoginView 디폴트생성자 생성 성공");
 

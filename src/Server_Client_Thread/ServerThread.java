@@ -25,7 +25,7 @@ public class ServerThread extends Thread {
 			st.nextToken();
 			NickName = st.nextToken();
 			for (ServerThread serverThread : server.RunningThreadList) {
-				sendMessage(100 + "#" + server.RunningThreadList);
+				sendMessage(300 + "#" + server.RunningThreadList);
 			}
 			server.RunningThreadList.add(this);
 		} catch (Exception e) {
