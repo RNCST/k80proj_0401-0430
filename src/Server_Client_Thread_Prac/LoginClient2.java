@@ -23,7 +23,7 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.table.DefaultTableModel;
 
-import Server_Client_Thread.Protocol;
+import Server_Client_Thread_old.Protocol;
 import view_.LoginView;
 
 public class LoginClient2 extends JFrame implements ActionListener {

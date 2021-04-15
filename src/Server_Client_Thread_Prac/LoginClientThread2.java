@@ -4,7 +4,7 @@ import java.util.Calendar;
 import java.util.StringTokenizer;
 import java.util.Vector;
 
-import Server_Client_Thread.Protocol;
+import Server_Client_Thread_old.Protocol;
 
 /**
  * 이벤트 핸들러의 역할은 말하기 이고 클라이언트 스레드의 역할은 듣기이다.

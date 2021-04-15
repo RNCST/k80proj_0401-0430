@@ -25,8 +25,8 @@ import javax.swing.ScrollPaneConstants;
 import javax.swing.border.LineBorder;
 import javax.swing.border.TitledBorder;
 
-import Server_Client_Thread.ChattClientThread;
-import Server_Client_Thread.Protocol;
+import Server_Client_Thread_old.ChattClientThread;
+import Server_Client_Thread_old.Protocol;
 
 public class MainLobbyViewWithClient extends JFrame implements ActionListener {
 	private static MainLobbyViewWithClient mainLobbyView = new MainLobbyViewWithClient();

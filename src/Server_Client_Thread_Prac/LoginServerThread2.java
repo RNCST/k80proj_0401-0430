@@ -6,7 +6,7 @@ import java.net.Socket;
 import java.util.Calendar;
 import java.util.StringTokenizer;
 
-import Server_Client_Thread.Protocol;
+import Server_Client_Thread_old.Protocol;
 
 public class LoginServerThread2 extends Thread{
 	public LoginServer2   loginServer = null;
