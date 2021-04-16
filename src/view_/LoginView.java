@@ -208,9 +208,19 @@ public class LoginView extends JFrame implements ActionListener {
 		{
 			this.dispose();
 		} else if (jb_signUp == obj) {
-			signUpViewInstance.initdisplay();
+			try {
+				oos.writeObject(ProjectProtocol.SignUp + ProjectProtocol.seperator + "beforeLogin"
+						+ ProjectProtocol.seperator + "nomsg");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		} else if (jb_search == obj) {
-			searchViewInstacne.initdisplay();
+			try {
+				oos.writeObject(ProjectProtocol.Search + ProjectProtocol.seperator + "beforeLogin"
+						+ ProjectProtocol.seperator + "nomsg");
+			} catch (Exception e2) {
+				e2.printStackTrace();
+			}
 		}
 	}
 

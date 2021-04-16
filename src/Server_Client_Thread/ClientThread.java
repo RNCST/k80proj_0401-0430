@@ -75,7 +75,7 @@ public class ClientThread extends Thread {
 				String SignOutViewReceiveData = null;
 				String settingViewReceiveData = null;
 
-		loginViewReceiveData   = (String)LoginView.getInstance().ois.readObject();
+				loginViewReceiveData = (String) LoginView.getInstance().ois.readObject();
 //		mainLobbyReceiveData   = (String)mainLobby.ois.readObject();
 //		SearchViewReceiveData  = (String)SearchView.ois.readObject();
 //		SignUpViewReceiveData  = (String)SignUpView.ois.readObject();
@@ -108,7 +108,7 @@ public class ClientThread extends Thread {
 						LoginView.getInstance().jtf_id.setText("");
 						LoginView.getInstance().jtf_pw.setText("");
 						LoginView.getInstance().dispose();
-					}else {
+					} else {
 						JOptionPane.showMessageDialog(LoginView.getInstance(), "아이디와 비밀번호를 확인해주세요.");
 						LoginView.getInstance().jtf_id.setText("");
 						LoginView.getInstance().jtf_pw.setText("");
@@ -119,33 +119,44 @@ public class ClientThread extends Thread {
 					System.out.println("===ClientThread.java Protocol.MESSAGE");
 					String nickName = st.nextToken();
 					String message = st.nextToken();
-
+					
 					MainLobbyView.getInstance().jta_showtext.append("[" + nickName + "]" + message + "\n");
 					MainLobbyView.getInstance().jta_showtext
 							.setCaretPosition(MainLobbyView.getInstance().jta_showtext.getDocument().getLength());
 				}
 					break;
-				case ProjectProtocol.NickNameChange:{
+				case ProjectProtocol.NickNameChange: {
 				}
 					break;
-				case ProjectProtocol.SignUp:{
+				case ProjectProtocol.SignUp: {
+					System.out.println("===ClientThread.java Protocol.SignUp");
+					String nickName = st.nextToken();
+					String message = st.nextToken();
+					SignUpView.getInstance().initdisplay();
 				}
-				break;
-				case ProjectProtocol.SearchID:{
+					break;
+				case ProjectProtocol.Search: {
+					System.out.println("===ClientThread.java Protocol.Search");
+					String nickName = st.nextToken();
+					String message = st.nextToken();
+					SearchView.getInstance().initdisplay();
 				}
-				break;
-				case ProjectProtocol.SearchPW:{
+					break;
+				case ProjectProtocol.SearchID: {
 				}
-				break;
-				case ProjectProtocol.RoomChange:{
+					break;
+				case ProjectProtocol.SearchPW: {
 				}
-				break;
-				case ProjectProtocol.Logout:{
+					break;
+				case ProjectProtocol.RoomChange: {
 				}
-				break;
-				case ProjectProtocol.SignOut:{
+					break;
+				case ProjectProtocol.Logout: {
 				}
-				break;
+					break;
+				case ProjectProtocol.SignOut: {
+				}
+					break;
 				}
 
 			} catch (Exception e) {

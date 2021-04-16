@@ -26,7 +26,7 @@ public class clientRun {
 			clientSocket = new Socket("127.0.0.1", 5800);
 			oos = new ObjectOutputStream(clientSocket.getOutputStream());
 			ois = new ObjectInputStream(clientSocket.getInputStream());
-			oos.writeObject(100 + "#" + nickName);
+			oos.writeObject(99999999 + "#" + nickName);
 			ClientThread clientThread = new ClientThread(this);
 			clientThread.start();
 		} catch (Exception e) {

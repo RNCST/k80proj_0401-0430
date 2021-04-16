@@ -25,7 +25,7 @@ public class ServerThread extends Thread {
 			st.nextToken();
 			NickName = st.nextToken();
 			for (ServerThread serverThread : server.RunningThreadList) {
-				sendMessage(300 + "#" + server.RunningThreadList);
+				sendMessage(100 + "#" + server.RunningThreadList + "#" + "");
 			}
 			server.RunningThreadList.add(this);
 		} catch (Exception e) {
@@ -65,7 +65,7 @@ public class ServerThread extends Thread {
 				}
 				switch (protocol) {
 				case ProjectProtocol.Login: {
-					System.out.println("ServerThread.java Protocol.Login");
+					System.out.println("===ServerThread.java Protocol.Login");
 					String nickName = st.nextToken();
 					String message = null;
 					try {
@@ -82,7 +82,7 @@ public class ServerThread extends Thread {
 				}
 					break;
 				case ProjectProtocol.MESSAGE: {
-					System.out.println("ServerThread.java Protocol.message");
+					System.out.println("===ServerThread.java Protocol.message");
 					String nickName = st.nextToken();
 					String message = null;
 					try {
@@ -102,6 +102,19 @@ public class ServerThread extends Thread {
 
 				}
 					break;
+				case ProjectProtocol.Search: {
+					System.out.println("===ServerThread.java Protocol.Search");
+					String nickName = st.nextToken();
+					String message = null;
+					try {
+						message = st.nextToken();
+					} catch (NoSuchElementException e) {
+						message = " ";
+					}
+					speak(ProjectProtocol.Search + ProjectProtocol.seperator + nickName + ProjectProtocol.seperator
+							+ message + ProjectProtocol.seperator);
+				}
+				break;
 				case ProjectProtocol.SearchID: {
 
 				}
@@ -115,7 +128,16 @@ public class ServerThread extends Thread {
 				}
 					break;
 				case ProjectProtocol.SignUp: {
-
+					System.out.println("===ServerThread.java Protocol.SignUp");
+					String nickName = st.nextToken();
+					String message = null;
+					try {
+						message = st.nextToken();
+					} catch (NoSuchElementException e) {
+						message = " ";
+					}
+					speak(ProjectProtocol.SignUp + ProjectProtocol.seperator + nickName + ProjectProtocol.seperator
+							+ message + ProjectProtocol.seperator);
 				}
 					break;
 				}
